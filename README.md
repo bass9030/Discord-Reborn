@@ -9,6 +9,7 @@ A Discord client for iOS 6 +
 ## TODO
 ### Short Term
 * Show channel categories
+* Auto Login
 * Mention, link hyperlinks
 * Codeblock support
 
