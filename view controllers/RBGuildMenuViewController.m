@@ -52,6 +52,7 @@
 	if(tableView == self.guildTableView){
         NSLog([NSString stringWithFormat:@"guildChange: %d", indexPath.row]);
 		self.selectedGuild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
+        self.navigationItem.title = self.selectedGuild.name;
 		[self.channelTableView reloadData];
 	}
     
