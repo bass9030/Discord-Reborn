@@ -151,7 +151,11 @@
     
     if([item isKindOfClass:[DCMessage class]]) {
         DCMessage* message = (DCMessage*)item;
-        NSString* bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
+        NSString* bubbleText;
+        if(message.content.length == 0)
+            bubbleText = @"<UNSUPPORTED MESSAGE TYPE>";
+        else
+            bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
         bubbleData = [NSBubbleData dataWithText:bubbleText date:message.timestamp type:!message.writtenByUser];
     }
     
