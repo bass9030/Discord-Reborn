@@ -50,11 +50,14 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if(tableView == self.guildTableView){
+        NSLog([NSString stringWithFormat:@"guildChange: %d", indexPath.row]);
 		self.selectedGuild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
 		[self.channelTableView reloadData];
 	}
     
     if(tableView == self.channelTableView){
+        NSLog([NSString stringWithFormat:@"channelChange: %d", indexPath.row]);
+
         self.selectedChannel = (DCChannel*)[self.selectedGuild.sortedChannels objectAtIndex:indexPath.row];
         
         [self performSegueWithIdentifier:@"guilds to chat" sender:self];
@@ -93,13 +96,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	UITableViewCell *cell;
+    
+//    NSLog([NSString stringWithFormat:@"index: %d", indexPath.row]);
 	
 	if(tableView == self.guildTableView){
         DCGuild* guild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
+        NSLog([NSString stringWithFormat:@"server id: %@", guild.snowflake]);
+        NSLog([NSString stringWithFormat:@"server name: %@", guild.name]);
 		cell = [tableView dequeueReusableCellWithIdentifier:@"guild" forIndexPath:indexPath];
 		cell.textLabel.text = @"";
         
         if(!guild.iconImage){
+            NSLog([NSString stringWithFormat:@"Cached image not found: %d", indexPath.row]);
             [guild queueLoadIconImage];
         }
         

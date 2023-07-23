@@ -14,7 +14,7 @@
 - (RBGatewayEvent *)initWithJsonString:(NSString *)json {
 	
 	self = [super init];
-	
+    	
 	NSDictionary *parsedJson = [RBCommon parseJSON:json];
 	
 	if(parsedJson[@"op"]){

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>debug</key>
-	<false/>
+	<true/>
 	<key>gateway address</key>
 	<string>wss://gateway.discord.gg/</string>
 </dict>

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "DCDiscordObject.h"
 @class RBMessageItem;
 @class DCGuildMember;

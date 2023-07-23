@@ -166,6 +166,7 @@
         NSDictionary *dict =
         @{
           @"token": RBClient.sharedInstance.tokenString,
+          @"large_threshold": @"50",
           @"properties": @{
                   @"$browser": @"raspberry",
                   },

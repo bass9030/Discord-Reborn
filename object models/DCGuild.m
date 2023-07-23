@@ -13,6 +13,7 @@
 #import "DCRole.h"
 #import "DCUser.h"
 #import "RBNotificationEvent.h"
+#import "UIKit/UIKit.h"
 
 static NSOperationQueue* loadIconOperationQueue;
 
@@ -130,6 +131,7 @@ static NSOperationQueue* loadIconOperationQueue;
         loadIconOperationQueue.maxConcurrentOperationCount = 1;
     }
     
+    
     NSBlockOperation *loadIconOperation = [NSBlockOperation new];
     
     __weak __typeof__(NSBlockOperation) *weakOp = loadIconOperation;
@@ -139,6 +141,7 @@ static NSOperationQueue* loadIconOperationQueue;
         if(weakOp.isCancelled) return;
         
         NSString *imgURLstr = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@.png", self.snowflake, self.iconHash];
+        NSLog([NSString stringWithFormat:@"channelImg: %@", imgURLstr]);
         NSURL* imgURL = [NSURL URLWithString:imgURLstr];
         
         NSData *data = [NSData dataWithContentsOfURL:imgURL];
