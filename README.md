@@ -7,8 +7,10 @@ A Discord client for iOS 6 +
 * App crashes on login
 
 ## TODO
-### Short Term
+### Done!
 * Show channel categories
+
+### Short Term
 * Auto Login
 * Mention, link hyperlinks
 * Codeblock support
