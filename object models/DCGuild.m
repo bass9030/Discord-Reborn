@@ -10,6 +10,7 @@
 #import "DCGuildMember.h"
 #import "DCGuild.h"
 #import "DCChannel.h"
+#import "DCMessage.h"
 #import "DCRole.h"
 #import "DCUser.h"
 #import "RBNotificationEvent.h"
@@ -60,24 +61,38 @@ static NSOperationQueue* loadIconOperationQueue;
     
 	//Channels
 	NSArray *jsonChannels = ((NSArray*)[dict objectForKey:@"channels"]);
-	self.channels = [[NSMutableDictionary alloc] initWithCapacity:jsonChannels.count];
-	for(NSDictionary *jsonChannel in jsonChannels){
+
+//	self.channels = [NSMutableDictionary new];
+    self.categorys = [NSMutableDictionary new];
+    self.channelsWithCategory = [NSMutableDictionary new];
+	
+    for(NSDictionary *jsonChannel in jsonChannels){
 		DCChannel *channel = [[DCChannel alloc] initFromDictionary:jsonChannel andGuild:self];
-        if((channel.channelType == DCChannelTypeGuildText || channel.channelType == DCChannelTypeDirectMessage || channel.channelType == DCChannelTypeGroupMessage) && channel.isVisible)
-            [self.channels setObject:channel forKey:channel.snowflake];
+        if(channel.channelType == DCChannelTypeGuildCatagory) {
+            [self.categorys setObject:channel forKey:channel.snowflake];
+            [self.channelsWithCategory setObject:[NSMutableArray new] forKey:channel.snowflake];
+        }else{
+            //prev code: (channel.channelType == DCChannelTypeGuildText || channel.channelType == DCChannelTypeDirectMessage || channel.channelType == DCChannelTypeGroupMessage) &&
+            
+//            [self.channels setObject:channel forKey:channel.snowflake];
+            [(NSMutableArray*)[self.channelsWithCategory objectForKey:channel.parentCatagorySnowflake] addObject:channel];
+        }
 	}
-    
-    self.sortedChannels = [[self.channels allValues] sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
-        
-        if (c1.sortingPosition > c2.sortingPosition) {
-            return (NSComparisonResult)NSOrderedDescending;
-        }
-        
-        if (c1.sortingPosition < c2.sortingPosition) {
-            return (NSComparisonResult)NSOrderedAscending;
-        }
-        return (NSComparisonResult)NSOrderedSame;
-    }];
+//    for(NSString* key in self.channelsWithCategory) {
+//        NSArray* channels = [NSArray arrayWithArray:[self.channelsWithCategory objectForKey:key]];
+//        NSArray* sortedChannels = [channels sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
+//            if (c1.sortingPosition > c2.sortingPosition) {
+//                return (NSComparisonResult)NSOrderedDescending;
+//            }
+//            
+//            if (c1.sortingPosition < c2.sortingPosition) {
+//                return (NSComparisonResult)NSOrderedAscending;
+//            }
+//            return (NSComparisonResult)NSOrderedSame;
+//        }];
+//        [self.channelsWithCategory removeObjectForKey:key];
+//        [self.channelsWithCategory setObject:sortedChannels forKey:key];
+//    }
 	
 	return self;
 }
@@ -101,7 +116,6 @@ static NSOperationQueue* loadIconOperationQueue;
 	}
     
     self.sortedChannels = [[self.channels allValues] sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
-        
         if (c1.sortingPosition > c2.sortingPosition) {
             return (NSComparisonResult)NSOrderedDescending;
         }
@@ -141,7 +155,6 @@ static NSOperationQueue* loadIconOperationQueue;
         if(weakOp.isCancelled) return;
         
         NSString *imgURLstr = [NSString stringWithFormat:@"https://cdn.discordapp.com/icons/%@/%@.png", self.snowflake, self.iconHash];
-        NSLog([NSString stringWithFormat:@"channelImg: %@", imgURLstr]);
         NSURL* imgURL = [NSURL URLWithString:imgURLstr];
         
         NSData *data = [NSData dataWithContentsOfURL:imgURL];

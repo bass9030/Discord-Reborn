@@ -116,10 +116,12 @@
             break;
             
         case 1: {
-            
+            NSLog(@"Message receive");
             DCMessage* message = [[DCMessage alloc] initFromDictionary:event.d];
             if(message.parentChannel != nil){
                 [message.parentChannel handleNewMessage:message];
+            }else{
+                NSLog(@"wtf parentChannel is null");
             }
             break;
         }

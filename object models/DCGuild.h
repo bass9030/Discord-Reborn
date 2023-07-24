@@ -26,6 +26,8 @@
 @property NSMutableDictionary *emoji;
 @property NSMutableDictionary *members;
 @property NSMutableDictionary *channels;
+@property NSMutableDictionary *channelsWithCategory;
+@property NSMutableDictionary *categorys;
 @property NSArray *sortedChannels;
 
 @property UIImage *iconImage;

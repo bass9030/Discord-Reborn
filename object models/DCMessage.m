@@ -16,13 +16,12 @@
 @implementation DCMessage
 @synthesize snowflake = _snowflake;
 @synthesize author = _author;
-@synthesize timestamp = _timestamp;
 @synthesize member = _member;
+@synthesize timestamp = _timestamp;
 @synthesize writtenByUser = _writtenByUser;
 
 - (DCMessage *)initFromDictionary:(NSDictionary *)dict {
 	self = [super init];
-    
     if(![dict objectForKey:@"channel_id"]){
 		[NSException exceptionWithName:@"invalid dictionary"
                                 reason:@"tried to initialize message from invalid dictionary!"

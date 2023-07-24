@@ -50,13 +50,18 @@
                                                name:UIKeyboardWillHideNotification
                                              object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self.chatTableView
-                                             selector:@selector(reloadData)
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(chatReceived:)
                                                  name:RBNotificationEventFocusedChannelUpdated
                                                object:nil];
     
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         self.navigationItem.hidesBackButton = YES;
+}
+
+-(void)chatReceived:(NSNotification *)notification {
+    NSLog(@"Received update event");
+    [self.chatTableView reloadData];
 }
 
 -(void)subscribeToChannelEvents:(DCChannel*)channel loadNumberOfMessages:(int)numMessages{
@@ -135,11 +140,12 @@
 - (IBAction)sendButtonWasPressed:(id)sender {
     [self.subscribedChannel sendMessage:self.messageField.text];
     self.messageField.text = @"";
-}
+    }
 
 #pragma mark uibubbletableview data source
 
 -(NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView{
+    NSLog([NSString stringWithFormat:@"messageCnt: %d", self.subscribedChannel.messagesAndAttachments.count]);
     return self.subscribedChannel.messagesAndAttachments.count;
 }
 
