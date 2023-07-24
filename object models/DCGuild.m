@@ -78,21 +78,38 @@ static NSOperationQueue* loadIconOperationQueue;
             [(NSMutableArray*)[self.channelsWithCategory objectForKey:channel.parentCatagorySnowflake] addObject:channel];
         }
 	}
-//    for(NSString* key in self.channelsWithCategory) {
-//        NSArray* channels = [NSArray arrayWithArray:[self.channelsWithCategory objectForKey:key]];
-//        NSArray* sortedChannels = [channels sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
-//            if (c1.sortingPosition > c2.sortingPosition) {
-//                return (NSComparisonResult)NSOrderedDescending;
-//            }
-//            
-//            if (c1.sortingPosition < c2.sortingPosition) {
-//                return (NSComparisonResult)NSOrderedAscending;
-//            }
-//            return (NSComparisonResult)NSOrderedSame;
-//        }];
-//        [self.channelsWithCategory removeObjectForKey:key];
-//        [self.channelsWithCategory setObject:sortedChannels forKey:key];
-//    }
+    
+    // TODO: category sorting
+    NSArray* sortedKeys = [[self.channelsWithCategory allKeys] sortedArrayUsingComparator:^(NSString* s1, NSString* s2) {
+        DCChannel* c1 = [self.categorys objectForKey:s1];
+        DCChannel* c2 = [self.categorys objectForKey:s2];
+        
+        if (c1.sortingPosition > c2.sortingPosition) {
+            return (NSComparisonResult)NSOrderedDescending;
+        }
+        
+        if (c1.sortingPosition < c2.sortingPosition) {
+            return (NSComparisonResult)NSOrderedAscending;
+        }
+        return (NSComparisonResult)NSOrderedSame;
+    }];
+    
+    // channel sorting
+    for(NSString* key in sortedKeys) {
+        NSArray* channels = [NSArray arrayWithArray:[self.channelsWithCategory objectForKey:key]];
+        NSArray* sortedChannels = [channels sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
+            if (c1.sortingPosition > c2.sortingPosition) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }
+            
+            if (c1.sortingPosition < c2.sortingPosition) {
+                return (NSComparisonResult)NSOrderedAscending;
+            }
+            return (NSComparisonResult)NSOrderedSame;
+        }];
+        [self.channelsWithCategory removeObjectForKey:key];
+        [self.channelsWithCategory setObject:sortedChannels forKey:key];
+    }
 	
 	return self;
 }
