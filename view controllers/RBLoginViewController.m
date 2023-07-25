@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loginIndicator;
 
 @property bool authenticated;
+@property bool autoAuthenticated;
 
 @end
 
@@ -30,23 +31,28 @@
 	[super viewDidLoad];
     
 	self.navigationItem.hidesBackButton = YES;
+    self.autoAuthenticated = NO;
     
     NSString *lastUsableToken = [NSUserDefaults.standardUserDefaults objectForKey:@"last usable token"];
-    
-    if(lastUsableToken){
-        self.tokenTextField.text = lastUsableToken;
-    }else{
-        self.tokenTextField.text = UIPasteboard.generalPasteboard.string;
-    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(didLogin)
                                                  name:RBNotificationEventDidLogin
                                                object:nil];
+    
+    if(lastUsableToken){
+        self.tokenTextField.text = lastUsableToken;
+//        self.autoAuthenticated = YES;
+    }else{
+        self.tokenTextField.text = UIPasteboard.generalPasteboard.string;
+    }
 }
 
 -(void)viewDidAppear:(BOOL)animated{
     self.authenticated = false;
+    if(self.autoAuthenticated) {
+        [self loginButtonWasClicked];
+    }
 }
 
 - (void)didReceiveMemoryWarning{

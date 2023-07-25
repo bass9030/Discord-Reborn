@@ -26,6 +26,8 @@ static NSOperationQueue* attachmentLoadOperationQueue;
     self.snowflake = [dict objectForKey:@"id"];
     self.fileName = [dict objectForKey:@"filename"];
     
+    self.contentType = [dict objectForKey:@"content_type"];
+    
     self.fileURL = [NSURL URLWithString:[dict objectForKey:@"url"]];
     
     self.imageWidth = (NSUInteger)[dict objectForKey:@"width"];
@@ -38,8 +40,9 @@ static NSOperationQueue* attachmentLoadOperationQueue;
     
     self.parentMessage = parentMessage;
     
-#warning there's probably a much better way to do this
-    if([[self.fileName pathExtension] isEqualToString:@"png"] || [[self.fileName pathExtension] isEqualToString:@"jpg"] || [[self.fileName pathExtension] isEqualToString:@"jpeg"] || [[self.fileName pathExtension] isEqualToString:@"gif"] || [[self.fileName pathExtension] isEqualToString:@"webp"])
+//warning there's probably a much better way to do this
+// ok i changed it to a much better way for you :)
+    if([self.contentType hasPrefix:@"image/"])
         self.attachmentType = DCMessageAttachmentTypeImage;
     else
         self.attachmentType = DCMessageAttachmentTypeOther;
@@ -69,9 +72,10 @@ static NSOperationQueue* attachmentLoadOperationQueue;
         NSData *data = [NSData dataWithContentsOfURL:self.fileURL];
             
         NSLog(@"loaded image %@", self.fileURL);
-            
+        
+//        [UIImage animatedImageWithAnimatedGIFData:data];
         self.image = [UIImage imageWithData:data];
-            
+        
         if(weakOp.isCancelled) return;
             
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -39,6 +39,7 @@
 	
 	for(NSDictionary* jsonGuild in jsonGuilds){
 		DCGuild* guild = [[DCGuild alloc]initFromDictionary:jsonGuild];
+        NSLog([NSString stringWithFormat:@"found guild: %@", guild.name]);
 		[self.guildDictionary setObject:guild forKey:guild.snowflake];
         
         if([guild.snowflake  isEqual: @"0"]) [self.channelDictionary addEntriesFromDictionary:guild.channels];
@@ -49,7 +50,7 @@
         }
 	}
     
-//    NSLog([NSString stringWithFormat:@"guildDictCnt: %d", self.guildDictionary.count]);
+    NSLog([NSString stringWithFormat:@"guildDictCnt: %d", self.guildDictionary.count]);
     
 #warning this can probably be simplified
     NSArray* readStates = [event.d objectForKey:@"read_state"];
@@ -63,10 +64,8 @@
         channel.isRead = [lastReadMessageSnowflake isEqualToString:channel.lastMessageReadOnLoginSnowflake];
     }
     
+    self.guildKeys = [[NSMutableArray alloc] init];
     
-//    NSMutableArray generatedGuildKeys =
-    self.guildKeys = [[NSMutableArray alloc] initWithCapacity:self.guildDictionary.count];
-    //self.guildKeys[0] =
     self.guildKeys[0] = dmGuild.snowflake;
     
     // TODO: support server folder

@@ -29,6 +29,8 @@
 @property NSMutableDictionary *channelsWithCategory;
 @property NSMutableDictionary *categorys;
 @property NSArray *sortedChannels;
+@property NSArray *sortedCategorys;
+
 
 @property UIImage *iconImage;
 

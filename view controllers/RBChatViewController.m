@@ -145,7 +145,7 @@
 #pragma mark uibubbletableview data source
 
 -(NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView{
-    NSLog([NSString stringWithFormat:@"messageCnt: %d", self.subscribedChannel.messagesAndAttachments.count]);
+//    NSLog([NSString stringWithFormat:@"messageCnt: %d", self.subscribedChannel.messagesAndAttachments.count]);
     return self.subscribedChannel.messagesAndAttachments.count;
 }
 
@@ -158,19 +158,16 @@
     if([item isKindOfClass:[DCMessage class]]) {
         DCMessage* message = (DCMessage*)item;
         NSString* bubbleText;
-        if(message.content.length == 0)
-            bubbleText = @"<UNSUPPORTED MESSAGE TYPE>";
-        else
-            bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
+        bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
         bubbleData = [NSBubbleData dataWithText:bubbleText date:message.timestamp type:!message.writtenByUser];
     }
-    
+        
     if([item isKindOfClass:[DCMessageAttachment class]]) {
         DCMessageAttachment* attachment = (DCMessageAttachment*)item;
         if(attachment.attachmentType == DCMessageAttachmentTypeImage)
             bubbleData = [NSBubbleData dataWithImage:attachment.image date:attachment.timestamp type:!attachment.writtenByUser];
         else
-            bubbleData = [NSBubbleData dataWithText:@"<UNSUPPORTED ATTACHMENT>" date:attachment.timestamp type:!attachment.writtenByUser];
+            bubbleData = [NSBubbleData dataWithText:[NSString stringWithFormat:@"<UNSUPPORTED ATTACHMENT, TYPE: %d>", attachment.attachmentType] date:attachment.timestamp type:!attachment.writtenByUser];
     }
     
     if(item.author.avatarImage) {

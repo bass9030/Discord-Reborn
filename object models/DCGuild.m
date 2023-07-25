@@ -65,22 +65,36 @@ static NSOperationQueue* loadIconOperationQueue;
 //	self.channels = [NSMutableDictionary new];
     self.categorys = [NSMutableDictionary new];
     self.channelsWithCategory = [NSMutableDictionary new];
+    
+    
+    // handle channels without category
+    DCChannel* noCategory = [DCChannel new];
+    noCategory.sortingPosition = -999;
+    noCategory.name = @"";
+    noCategory.channelType = DCChannelTypeGuildCatagory;
+    noCategory.snowflake = @"no cat";
+    
+    [self.categorys setObject:noCategory forKey:noCategory.snowflake];
+    [self.channelsWithCategory setObject:[NSMutableArray new] forKey:noCategory.snowflake];
 	
     for(NSDictionary *jsonChannel in jsonChannels){
 		DCChannel *channel = [[DCChannel alloc] initFromDictionary:jsonChannel andGuild:self];
         if(channel.channelType == DCChannelTypeGuildCatagory) {
             [self.categorys setObject:channel forKey:channel.snowflake];
             [self.channelsWithCategory setObject:[NSMutableArray new] forKey:channel.snowflake];
-        }else{
-            //prev code: (channel.channelType == DCChannelTypeGuildText || channel.channelType == DCChannelTypeDirectMessage || channel.channelType == DCChannelTypeGroupMessage) &&
-            
-//            [self.channels setObject:channel forKey:channel.snowflake];
-            [(NSMutableArray*)[self.channelsWithCategory objectForKey:channel.parentCatagorySnowflake] addObject:channel];
-        }
+        }else continue;
 	}
     
+    for(NSDictionary* jsonChannel in jsonChannels) {
+        DCChannel *channel = [[DCChannel alloc] initFromDictionary:jsonChannel andGuild:self];
+        if(channel.channelType != DCChannelTypeGuildCatagory) {
+//            if([channel.parentGuild.snowflake isEqual:@"745103529500475443"]) NSLog([NSString stringWithFormat:@"categoryName: %@ | channelName: %@", [[self.categorys objectForKey:channel.parentCatagorySnowflake] name], channel.name]);
+            [(NSMutableArray*)[self.channelsWithCategory objectForKey:channel.parentCatagorySnowflake] addObject:channel];
+        }else continue;
+    }
+    
     // TODO: category sorting
-    NSArray* sortedKeys = [[self.channelsWithCategory allKeys] sortedArrayUsingComparator:^(NSString* s1, NSString* s2) {
+    self.sortedCategorys = [[self.channelsWithCategory allKeys] sortedArrayUsingComparator:^(NSString* s1, NSString* s2) {
         DCChannel* c1 = [self.categorys objectForKey:s1];
         DCChannel* c2 = [self.categorys objectForKey:s2];
         
@@ -95,7 +109,7 @@ static NSOperationQueue* loadIconOperationQueue;
     }];
     
     // channel sorting
-    for(NSString* key in sortedKeys) {
+    for(NSString* key in self.sortedCategorys) {
         NSArray* channels = [NSArray arrayWithArray:[self.channelsWithCategory objectForKey:key]];
         NSArray* sortedChannels = [channels sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
             if (c1.sortingPosition > c2.sortingPosition) {
@@ -133,17 +147,37 @@ static NSOperationQueue* loadIconOperationQueue;
 	}
     
     self.sortedChannels = [[self.channels allValues] sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
-        if (c1.sortingPosition > c2.sortingPosition) {
+        uint64_t c1LastMessage = [self snowflakeToDate:c1.lastMessageReadOnLoginSnowflake];
+        uint64_t c2LastMessage = [self snowflakeToDate:c2.lastMessageReadOnLoginSnowflake];
+//        NSLog([NSString stringWithFormat:@"%@ | %@", c1.name, c2.name]);
+        if (c2LastMessage > c1LastMessage) {
             return (NSComparisonResult)NSOrderedDescending;
         }
         
-        if (c1.sortingPosition < c2.sortingPosition) {
+        if (c2LastMessage < c1LastMessage) {
             return (NSComparisonResult)NSOrderedAscending;
         }
         return (NSComparisonResult)NSOrderedSame;
     }];
+    NSLog(@"Dm channel sorting end");
 	
 	return self;
+}
+
+- (uint64_t)snowflakeToDate:(NSString *)snowflake {
+    // Convert snowflake string to unsigned 64-bit integer
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
+    NSNumber *snowflakeNumber = [numberFormatter numberFromString:snowflake];
+    uint64_t snowflakeValue = [snowflakeNumber unsignedLongLongValue];
+    
+    // Extract date bits from the snowflake
+    uint64_t dateBits = snowflakeValue >> 22;
+    
+    // Calculate the timestamp (milliseconds since the Discord epoch)
+    uint64_t timestamp = dateBits + 1420070400000;
+    
+    return timestamp;
 }
 
 - (void)queueLoadIconImage {

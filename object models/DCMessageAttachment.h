@@ -22,6 +22,7 @@ typedef NS_ENUM(NSInteger, DCMessageAttachmentType) {
 @property DCMessageAttachmentType attachmentType;
 
 @property NSString *fileName;
+@property NSString *contentType;
 @property int sizeInBytes;
 @property NSURL *fileURL;
 @property NSURL *proxiedFileURLString;

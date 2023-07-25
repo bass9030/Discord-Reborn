@@ -56,11 +56,11 @@
 	}
     
     if(tableView == self.channelTableView){
-        NSLog([NSString stringWithFormat:@"channelChange: %d", indexPath.row]);
-        if(self.selectedGuild.snowflake == @"0") {
+//        NSLog([NSString stringWithFormat:@"channelChange: %d", indexPath.row]);
+        if([self.selectedGuild.snowflake isEqual:@"0"]) {
             self.selectedChannel = (DCChannel*)[self.selectedGuild.sortedChannels objectAtIndex:indexPath.row];
         }else{
-            NSString* categorySnowflake = [self.selectedGuild.channelsWithCategory.allKeys objectAtIndex:indexPath.section];
+            NSString* categorySnowflake = [self.selectedGuild.sortedCategorys objectAtIndex:indexPath.section];
             self.selectedChannel = (DCChannel*)[(NSMutableArray*)[self.selectedGuild.channelsWithCategory objectForKey:categorySnowflake] objectAtIndex:indexPath.row];
         }
         
@@ -73,17 +73,17 @@
 
 // category count
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    if(tableView == self.guildTableView || self.selectedGuild.snowflake == @"0") return 1;
-    NSLog([NSString stringWithFormat:@"categoryCnt: %d", self.selectedGuild.channelsWithCategory.allKeys.count]);
+    if(tableView == self.guildTableView || [self.selectedGuild.snowflake isEqual:@"0"]) return 1;
+//    NSLog([NSString stringWithFormat:@"categoryCnt: %d", self.selectedGuild.channelsWithCategory.allKeys.count]);
     return self.selectedGuild.channelsWithCategory.allKeys.count;
 }
 
 
 // category title
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-    if(tableView == self.guildTableView || self.selectedGuild.snowflake == @"0") return @"";
-    NSLog([NSString stringWithFormat:@"titleForHeaderInSection %d", section]);
-    NSString* categorySnowflake = [self.selectedGuild.channelsWithCategory.allKeys objectAtIndex:section];
+    if(tableView == self.guildTableView || [self.selectedGuild.snowflake isEqual:@"0"]) return @"";
+//    NSLog([NSString stringWithFormat:@"titleForHeaderInSection %d", section]);
+    NSString* categorySnowflake = [self.selectedGuild.sortedCategorys objectAtIndex:section];
     NSString* categoryName = [[self.selectedGuild.categorys objectForKey:categorySnowflake] name];
 //    NSLog([NSString stringWithFormat:@"selectChannelName: %@ | Category: %@", selectedChannel.name, categoryName]);
     return categoryName;
@@ -92,14 +92,14 @@
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    NSLog(@"numberOfRowsInSection");
+//    NSLog(@"numberOfRowsInSection");
 	if(tableView == self.guildTableView)
 		return [RBClient.sharedInstance.guildStore count];
 	
     if(tableView == self.channelTableView){
-        if(self.selectedGuild.snowflake == @"0")
+        if([self.selectedGuild.snowflake isEqual:@"0"])
             return self.selectedGuild.sortedChannels.count;
-        NSString *key = [self.selectedGuild.channelsWithCategory.allKeys objectAtIndex: section];
+        NSString *key = [self.selectedGuild.sortedCategorys objectAtIndex: section];
         return [[self.selectedGuild.channelsWithCategory objectForKey: key] count];
     }
     
@@ -110,12 +110,11 @@
 	
 	UITableViewCell *cell;
     
-    NSLog([NSString stringWithFormat:@"index: %d", indexPath.row]);
-	
 	if(tableView == self.guildTableView){
+        NSLog([NSString stringWithFormat:@"idx: %d", indexPath.row]);
         DCGuild* guild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
-//        NSLog([NSString stringWithFormat:@"server id: %@", guild.snowflake]);
-//        NSLog([NSString stringWithFormat:@"server name: %@", guild.name]);
+        NSLog([NSString stringWithFormat:@"server id: %@", guild.snowflake]);
+        NSLog([NSString stringWithFormat:@"server name: %@", guild.name]);
 		cell = [tableView dequeueReusableCellWithIdentifier:@"guild" forIndexPath:indexPath];
 		cell.textLabel.text = @"";
         
@@ -128,15 +127,15 @@
 	
 	if(tableView == self.channelTableView){
         DCChannel* channel;
-        if(self.selectedGuild.snowflake == @"0") {
+        if([self.selectedGuild.snowflake isEqual:@"0"]) {
+            // private channel
             channel = [self.selectedGuild.sortedChannels objectAtIndex:indexPath.row];
         }else{
-            NSString *key = self.selectedGuild.channelsWithCategory.allKeys[indexPath.section];
+            NSString *key = self.selectedGuild.sortedCategorys[indexPath.section];
             NSArray *content = self.selectedGuild.channelsWithCategory[key];
             channel = (DCChannel*)[content objectAtIndex:indexPath.row];
         }
-//        DCChannel* channel = (DCChannel*)[self.selectedGuild.sortedChannels objectAtIndex:indexPath.row];
-        // forIndexPath:indexPath
+
 		cell = [tableView dequeueReusableCellWithIdentifier:@"channel"];
         if (cell == nil)
         {
