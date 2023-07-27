@@ -21,8 +21,7 @@
 
 @implementation UIBubbleTableView
 
-@synthesize bubbleDataSource = _bubbleDataSource;
-@synthesize snapInterval = _snapInterval;
+	@synthesize snapInterval = _snapInterval;
 @synthesize bubbleSection = _bubbleSection;
 @synthesize typingBubble = _typingBubble;
 @synthesize showAvatars = _showAvatars;
@@ -246,11 +245,41 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
     
     if (cell == nil) cell = [[UIBubbleTableViewCell alloc] init];
-    
     cell.data = data;
     cell.showAvatar = self.showAvatars;
     
+    UIButton *button = (UIButton*)[data.view viewWithTag:1];
+    [button addTarget:self action:@selector(imageButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *avatarBtn = (UIButton*)[cell.superview.superview viewWithTag:2];
+    [avatarBtn addTarget:self action:@selector(imageButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
+    
     return cell;
+}
+
+- (void) avatarButtonTapped:(id)sender event:(id)event {
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self];
+    NSIndexPath *indexPath = [self indexPathForRowAtPoint: currentTouchPosition];
+    NSLog(@"indexPath=%@",indexPath);
+    if (indexPath.row != 0)
+    {
+        NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
+        [self.bubbleDataSource didSelectNSBubbleDataAvatar:data];
+    }
+}
+
+- (void) imageButtonTapped:(id)sender event:(id)event {
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self];
+    NSIndexPath *indexPath = [self indexPathForRowAtPoint: currentTouchPosition];
+    NSLog(@"indexPath=%@",indexPath);
+    if (indexPath.row != 0)
+    {
+        NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
+        [self.bubbleDataSource didSelectNSBubbleDataCell:data];
+    }
 }
 
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView

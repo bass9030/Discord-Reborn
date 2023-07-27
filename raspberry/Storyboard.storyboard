@@ -174,7 +174,7 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translucent="NO" id="ma9-2d-3A9">
-                                <rect key="frame" x="0.0" y="372" width="320" height="44"/>
+                                <rect key="frame" x="2" y="370" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                 <items>
                                     <barButtonItem systemItem="camera" id="g58-n0-Uc6">
@@ -208,11 +208,12 @@
                         <outlet property="chatToolbar" destination="ma9-2d-3A9" id="Iwp-bU-Gdq"/>
                         <outlet property="messageField" destination="sAS-X1-3th" id="TzX-MI-5C3"/>
                         <segue destination="hme-Lj-1ap" kind="push" identifier="chat to contact" id="V5V-HO-cvD"/>
+                        <segue destination="bC6-oq-qpP" kind="push" identifier="chat to imgview" id="EDN-ax-A0w"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="UO4-e6-Q0p" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="213" y="-63"/>
+            <point key="canvasLocation" x="217" y="-63"/>
         </scene>
         <!--Contact View Controller - Contact-->
         <scene sceneID="Z4M-8F-YdJ">
@@ -272,6 +273,37 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kmQ-Jd-WeZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="689" y="-63"/>
+        </scene>
+        <!--Image View Controller - Image View-->
+        <scene sceneID="Lpe-ld-oFS">
+            <objects>
+                <viewController title="Image View" id="bC6-oq-qpP" customClass="RBImageViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="n5q-N6-8oQ">
+                        <rect key="frame" x="0.0" y="64" width="320" height="416"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <scrollView appearanceType="aqua" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="7gH-WQ-GDm">
+                                <rect key="frame" x="-1" y="1" width="320" height="416"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="4pU-qn-5Zk">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="416"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                    </imageView>
+                                </subviews>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="DWB-Ed-EM6"/>
+                    <connections>
+                        <outlet property="imgView" destination="4pU-qn-5Zk" id="BSC-1T-IVT"/>
+                        <outlet property="scrollView" destination="7gH-WQ-GDm" id="xQA-iX-fHb"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a0s-UV-27i" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="689" y="505"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

@@ -17,7 +17,9 @@
 #import "DCMessageAttachment.h"
 #import "TRMalleableFrameView.h"
 #import "DCUser.h"
+#import "UIKit/UIKit.h"
 #import "RBContactViewController.h"
+#import "RBImageViewController.h"
 
 @interface RBChatViewController ()
 
@@ -29,6 +31,7 @@
 
 @property UIImagePickerController *imagePickerController;
 @property id <RBMessageItem> selectedMessageItem;
+@property UIImage* selectedImg;
 
 @end
 
@@ -149,6 +152,16 @@
     return self.subscribedChannel.messagesAndAttachments.count;
 }
 
+-(void) didSelectNSBubbleDataCell:(NSBubbleData *)dataCell {
+    NSLog(@"image selected!");
+    self.selectedImg = [(DCMessageAttachment*)[self.subscribedChannel.messagesAndAttachments objectAtIndex:dataCell.index] image];
+    [self performSegueWithIdentifier:@"chat to imgview" sender:self];
+}
+
+-(void) didSelectNSBubbleDataAvatar:(NSBubbleData *)dataCell {
+    NSLog(@"avatar selected!");
+}
+
 -(NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row{
     
     NSBubbleData *bubbleData;
@@ -161,7 +174,7 @@
         bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
         bubbleData = [NSBubbleData dataWithText:bubbleText date:message.timestamp type:!message.writtenByUser];
     }
-        
+    
     if([item isKindOfClass:[DCMessageAttachment class]]) {
         DCMessageAttachment* attachment = (DCMessageAttachment*)item;
         if(attachment.attachmentType == DCMessageAttachmentTypeImage)
@@ -194,13 +207,22 @@
 #pragma mark uibubble	tableviewdelegate
 
 - (void)bubbleTableView:(UIBubbleTableView *)bubbleTableView didSelectRow:(int) row{
-    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
+    // TODO: handle hyperlink
+//    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
+//    [self performSegueWithIdentifier:@"chat to contact" sender:self];
+}
+
+- (void) didSelectProfile:(id) sender {
+    UITapGestureRecognizer *gesture = (UITapGestureRecognizer *) sender;
+    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:gesture.view.tag];
     [self performSegueWithIdentifier:@"chat to contact" sender:self];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.destinationViewController class] == [RBContactViewController class]){
         [((RBContactViewController*)segue.destinationViewController) setSelectedUser:self.selectedMessageItem.author];
+    }else if([segue.destinationViewController class] == [RBImageViewController class]) {
+        [((RBImageViewController*)segue.destinationViewController) setSelectedImg:self.selectedImg];
     }
 }
 

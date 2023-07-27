@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		024663832A723669009DA6BB /* RBImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 024663822A723669009DA6BB /* RBImageViewController.m */; };
 		090E0E7A22481240004B30AC /* API Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 090E0E7922481240004B30AC /* API Settings.plist */; };
 		091B9D97226B5C2C0047C75B /* RBGatewayHeart.m in Sources */ = {isa = PBXBuildFile; fileRef = 091B9D96226B5C2C0047C75B /* RBGatewayHeart.m */; };
 		095BF89C235ACF8D00F3FCD8 /* RBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 095BF89B235ACF8D00F3FCD8 /* RBChatViewController.m */; };
@@ -94,6 +95,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		024663812A723669009DA6BB /* RBImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBImageViewController.h; sourceTree = "<group>"; };
+		024663822A723669009DA6BB /* RBImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBImageViewController.m; sourceTree = "<group>"; };
 		090E0E7922481240004B30AC /* API Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "API Settings.plist"; sourceTree = "<group>"; };
 		091B9D95226B5C2C0047C75B /* RBGatewayHeart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBGatewayHeart.h; sourceTree = "<group>"; };
 		091B9D96226B5C2C0047C75B /* RBGatewayHeart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBGatewayHeart.m; sourceTree = "<group>"; };
@@ -487,6 +490,8 @@
 				09A4D347235DDD2B00A7E59C /* RBMembersTableViewController.m */,
 				0983EC93240FF27A00A1E94D /* TRMalleableFrameView.h */,
 				0983EC94240FF27A00A1E94D /* TRMalleableFrameView.m */,
+				024663812A723669009DA6BB /* RBImageViewController.h */,
+				024663822A723669009DA6BB /* RBImageViewController.m */,
 			);
 			path = "view controllers";
 			sourceTree = "<group>";
@@ -657,6 +662,7 @@
 				09610D3522474658000E65E1 /* AFHTTPClient.m in Sources */,
 				09610D3622474658000E65E1 /* AFHTTPRequestOperation.m in Sources */,
 				09610D3722474658000E65E1 /* AFImageRequestOperation.m in Sources */,
+				024663832A723669009DA6BB /* RBImageViewController.m in Sources */,
 				09610D3822474658000E65E1 /* AFJSONRequestOperation.m in Sources */,
 				09610D3922474658000E65E1 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				ABA4603C2303645D00AC83DF /* RBSettingsViewController.m in Sources */,

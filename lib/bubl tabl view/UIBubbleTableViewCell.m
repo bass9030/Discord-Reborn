@@ -10,13 +10,13 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIBubbleTableViewCell.h"
+#import "UIBubbleTableView.h"
 #import "NSBubbleData.h"
 
 @interface UIBubbleTableViewCell ()
 
 @property (nonatomic, retain) UIView *customView;
 @property (nonatomic, retain) UIImageView *bubbleImage;
-@property (nonatomic, retain) UIImageView *avatarImage;
 
 - (void) setupInternalData;
 
@@ -28,7 +28,7 @@
 @synthesize customView = _customView;
 @synthesize bubbleImage = _bubbleImage;
 @synthesize showAvatar = _showAvatar;
-@synthesize avatarImage = _avatarImage;
+//@synthesize avatarImage = _avatarImage;
 
 - (void)setFrame:(CGRect)frame
 {
@@ -79,16 +79,15 @@
     if (self.showAvatar)
     {
         [self.avatarImage removeFromSuperview];
-#if !__has_feature(objc_arc)
-        self.avatarImage = [[[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])] autorelease];
-#else
-        self.avatarImage = [[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])];
-#endif
+
+        self.avatarImage = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.avatarImage.tag = 2;
+        [self.avatarImage setBackgroundImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"]) forState:UIControlStateNormal];
         self.avatarImage.layer.cornerRadius = 9.0;
         self.avatarImage.layer.masksToBounds = YES;
         self.avatarImage.layer.borderColor = [UIColor colorWithWhite:0.0 alpha:0.2].CGColor;
         self.avatarImage.layer.borderWidth = 1.0;
-        
+                
         CGFloat avatarX = (type == BubbleTypeSomeoneElse) ? 2 : self.frame.size.width - 52;
         CGFloat avatarY = self.frame.size.height - 50;
         
