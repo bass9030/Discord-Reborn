@@ -11,9 +11,10 @@ A Discord client for iOS 6 +
 * Show channel categories
 * Auto Login
 * Image Viewer
+* Contact viewer(Roll back to a previous commit)
+* A half-working mention name display
 
 ### Short Term
-* Contact viewer(Disabled the existing contact viewer to avoid conflicts with the image viewer)
 * Mention, link hyperlinks
 * Codeblock support
 
