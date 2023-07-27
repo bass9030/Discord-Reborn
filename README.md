@@ -9,14 +9,15 @@ A Discord client for iOS 6 +
 ## TODO
 ### Done!
 * Show channel categories
+* Auto Login
+* Image Viewer
 
 ### Short Term
-* Auto Login
+* Contact viewer(Disabled the existing contact viewer to avoid conflicts with the image viewer)
 * Mention, link hyperlinks
 * Codeblock support
 
 ### Long Term (Might not be implemented)
-* Image viewer
 * Embed message
 * Emoji(ex: `:thinking:` -> <img src="https://em-content.zobj.net/thumbs/120/twitter/351/thinking-face_1f914.png" alt="thinking face emoji" style="vertical-align: middle;" width="20px"/>)
 * Voice chat..?
