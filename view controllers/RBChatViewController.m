@@ -60,6 +60,11 @@
     
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         self.navigationItem.hidesBackButton = YES;
+    
+//    UITapGestureRecognizer *singleFingerTap =
+//    [[UITapGestureRecognizer alloc] initWithTarget:self
+//                                            action:@selector(didProfileSelect:)];
+//    [self.view addGestureRecognizer:singleFingerTap];
 }
 
 -(void)chatReceived:(NSNotification *)notification {
@@ -153,13 +158,8 @@
 }
 
 -(void) didSelectNSBubbleDataCell:(NSBubbleData *)dataCell {
-    NSLog(@"image selected!");
     self.selectedImg = [(DCMessageAttachment*)[self.subscribedChannel.messagesAndAttachments objectAtIndex:dataCell.index] image];
     [self performSegueWithIdentifier:@"chat to imgview" sender:self];
-}
-
--(void) didSelectNSBubbleDataAvatar:(NSBubbleData *)dataCell {
-    NSLog(@"avatar selected!");
 }
 
 -(NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row{
@@ -207,14 +207,7 @@
 #pragma mark uibubble	tableviewdelegate
 
 - (void)bubbleTableView:(UIBubbleTableView *)bubbleTableView didSelectRow:(int) row{
-    // TODO: handle hyperlink
-//    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
-//    [self performSegueWithIdentifier:@"chat to contact" sender:self];
-}
-
-- (void) didSelectProfile:(id) sender {
-    UITapGestureRecognizer *gesture = (UITapGestureRecognizer *) sender;
-    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:gesture.view.tag];
+    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
     [self performSegueWithIdentifier:@"chat to contact" sender:self];
 }
 

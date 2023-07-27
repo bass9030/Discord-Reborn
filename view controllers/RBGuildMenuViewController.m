@@ -111,10 +111,7 @@
 	UITableViewCell *cell;
     
 	if(tableView == self.guildTableView){
-        NSLog([NSString stringWithFormat:@"idx: %d", indexPath.row]);
         DCGuild* guild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
-        NSLog([NSString stringWithFormat:@"server id: %@", guild.snowflake]);
-        NSLog([NSString stringWithFormat:@"server name: %@", guild.name]);
 		cell = [tableView dequeueReusableCellWithIdentifier:@"guild" forIndexPath:indexPath];
 		cell.textLabel.text = @"";
         

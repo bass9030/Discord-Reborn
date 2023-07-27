@@ -57,10 +57,12 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
     
 //    UITextView *textview = [[UITextView alloc] initWithFrame:CGRectMake(0,0,size.width,size.height)];
-//    
+    
 //    textview.text = (text ? text : @"");
 //    textview.font = font;
 //    textview.backgroundColor = [UIColor clearColor];
+//    textview. = false;
+//    textview.isDragging = false;
     
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
@@ -71,8 +73,8 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     label.backgroundColor = [UIColor clearColor];
     
 #if !__has_feature(objc_arc)
-    [textview autorelease];
-//    [label autorelease];
+//    [textview autorelease];
+    [label autorelease];
 #endif
     
     UIEdgeInsets insets = (type == BubbleTypeMine ? textInsetsMine : textInsetsSomeone);

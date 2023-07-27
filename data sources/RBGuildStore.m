@@ -39,7 +39,6 @@
 	
 	for(NSDictionary* jsonGuild in jsonGuilds){
 		DCGuild* guild = [[DCGuild alloc]initFromDictionary:jsonGuild];
-        NSLog([NSString stringWithFormat:@"found guild: %@", guild.name]);
 		[self.guildDictionary setObject:guild forKey:guild.snowflake];
         
         if([guild.snowflake  isEqual: @"0"]) [self.channelDictionary addEntriesFromDictionary:guild.channels];
@@ -49,8 +48,6 @@
             }
         }
 	}
-    
-    NSLog([NSString stringWithFormat:@"guildDictCnt: %d", self.guildDictionary.count]);
     
 #warning this can probably be simplified
     NSArray* readStates = [event.d objectForKey:@"read_state"];
@@ -69,7 +66,6 @@
     self.guildKeys[0] = dmGuild.snowflake;
     
     // TODO: support server folder
-//    [self.guildKeys addObjectsFromArray:[[event.d objectForKey:@"user_settings"] objectForKey:@"guild_positions"]];
     NSArray* guildFolders = [[event.d objectForKey:@"user_settings" ] objectForKey:@"guild_folders"];
     NSMutableArray* guildKeys_converted = [self guildKeysFromGuildFolders:guildFolders];
     [self.guildKeys addObjectsFromArray:guildKeys_converted];

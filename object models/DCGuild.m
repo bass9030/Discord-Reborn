@@ -40,7 +40,7 @@ static NSOperationQueue* loadIconOperationQueue;
 	
     //Roles
     NSArray *jsonRoles = ((NSArray*)[dict objectForKey:@"roles"]);
-    self.roles = [[NSMutableDictionary alloc]initWithCapacity:jsonRoles.count];
+    self.roles = [[NSMutableDictionary alloc]init];
 
     for(NSDictionary* jsonRole in jsonRoles){
         DCRole* role = [[DCRole alloc] initFromDictionary:jsonRole];
@@ -74,6 +74,7 @@ static NSOperationQueue* loadIconOperationQueue;
     noCategory.channelType = DCChannelTypeGuildCatagory;
     noCategory.snowflake = @"no cat";
     
+	self.channels = [[NSMutableDictionary alloc] initWithCapacity:jsonChannels.count];
     [self.categorys setObject:noCategory forKey:noCategory.snowflake];
     [self.channelsWithCategory setObject:[NSMutableArray new] forKey:noCategory.snowflake];
 	
@@ -88,12 +89,12 @@ static NSOperationQueue* loadIconOperationQueue;
     for(NSDictionary* jsonChannel in jsonChannels) {
         DCChannel *channel = [[DCChannel alloc] initFromDictionary:jsonChannel andGuild:self];
         if(channel.channelType != DCChannelTypeGuildCatagory) {
-//            if([channel.parentGuild.snowflake isEqual:@"745103529500475443"]) NSLog([NSString stringWithFormat:@"categoryName: %@ | channelName: %@", [[self.categorys objectForKey:channel.parentCatagorySnowflake] name], channel.name]);
+            [self.channels setObject:channel forKey:channel.snowflake];
             [(NSMutableArray*)[self.channelsWithCategory objectForKey:channel.parentCatagorySnowflake] addObject:channel];
         }else continue;
     }
     
-    // TODO: category sorting
+    // category sorting
     self.sortedCategorys = [[self.channelsWithCategory allKeys] sortedArrayUsingComparator:^(NSString* s1, NSString* s2) {
         DCChannel* c1 = [self.categorys objectForKey:s1];
         DCChannel* c2 = [self.categorys objectForKey:s2];
@@ -147,8 +148,6 @@ static NSOperationQueue* loadIconOperationQueue;
 	}
     
     self.sortedChannels = [[self.channels allValues] sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
-//        NSLog([NSString stringWithFormat:@"%@ | %@", c1.name, c2.name]);
-//        NSLog([NSString stringWithFormat:@"%@ | %@", c1.lastMessageReadOnLoginSnowflake, c2.lastMessageReadOnLoginSnowflake]);
         if([c1.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]] || [c2.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]]) {
             if([c1.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]] && ![c2.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]]) {
                 return (NSComparisonResult)NSOrderedDescending;
@@ -157,7 +156,6 @@ static NSOperationQueue* loadIconOperationQueue;
             }else{
                 return (NSComparisonResult)NSOrderedSame;
             }
-//            NSLog(@"some snowflake is empty!");
         }
         uint64_t c1LastMessage = [self snowflakeToDate:c1.lastMessageReadOnLoginSnowflake];
         uint64_t c2LastMessage = [self snowflakeToDate:c2.lastMessageReadOnLoginSnowflake];
@@ -170,7 +168,6 @@ static NSOperationQueue* loadIconOperationQueue;
         }
         return (NSComparisonResult)NSOrderedSame;
     }];
-    NSLog(@"Dm channel sorting end");
 	
 	return self;
 }

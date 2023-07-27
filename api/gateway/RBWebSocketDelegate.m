@@ -38,8 +38,8 @@
 - (void)webSocket:(RBWebSocket *)webSocket didReceiveMessage:(id)message {
 	RBGatewayEvent *event = [[RBGatewayEvent alloc] initWithJsonString:message];
 	
-    if(![event.t isEqualToString:@"READY"])
-        NSLog(@"event data: %@, %i, %i, %@", event.t, event.s, event.op, event.d);
+//    if(![event.t isEqualToString:@"READY"])
+//        NSLog(@"event data: %@, %i, %i, %@", event.t, event.s, event.op, event.d);
     
 	if(event){
 		switch (event.op) {

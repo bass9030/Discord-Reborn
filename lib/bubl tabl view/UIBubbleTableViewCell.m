@@ -16,6 +16,7 @@
 @interface UIBubbleTableViewCell ()
 
 @property (nonatomic, retain) UIView *customView;
+@property (nonatomic, retain) UIImageView *avatarImage;
 @property (nonatomic, retain) UIImageView *bubbleImage;
 
 - (void) setupInternalData;
@@ -80,14 +81,16 @@
     {
         [self.avatarImage removeFromSuperview];
 
-        self.avatarImage = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.avatarImage.tag = 2;
-        [self.avatarImage setBackgroundImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"]) forState:UIControlStateNormal];
+#if !__has_feature(objc_arc)
+        self.avatarImage = [[[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])] autorelease];
+#else
+        self.avatarImage = [[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])];
+#endif
         self.avatarImage.layer.cornerRadius = 9.0;
         self.avatarImage.layer.masksToBounds = YES;
         self.avatarImage.layer.borderColor = [UIColor colorWithWhite:0.0 alpha:0.2].CGColor;
         self.avatarImage.layer.borderWidth = 1.0;
-                
+        
         CGFloat avatarX = (type == BubbleTypeSomeoneElse) ? 2 : self.frame.size.width - 52;
         CGFloat avatarY = self.frame.size.height - 50;
         

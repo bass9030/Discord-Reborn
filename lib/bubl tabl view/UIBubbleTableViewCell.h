@@ -15,6 +15,5 @@
 
 @property (nonatomic, strong) NSBubbleData *data;
 @property (nonatomic) BOOL showAvatar;
-@property (nonatomic, retain) UIButton *avatarImage;
 
 @end

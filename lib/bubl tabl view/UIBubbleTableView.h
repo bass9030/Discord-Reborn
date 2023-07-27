@@ -31,5 +31,6 @@ typedef enum _NSBubbleTypingType
 @property (nonatomic, assign) IBOutlet id<UIBubbleTableViewDelegate> bubbleDelegate;
 
 - (void) scrollBubbleViewToBottomAnimated:(BOOL)animated;
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath;
 
 @end
