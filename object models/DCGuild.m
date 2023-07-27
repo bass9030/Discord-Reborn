@@ -147,9 +147,20 @@ static NSOperationQueue* loadIconOperationQueue;
 	}
     
     self.sortedChannels = [[self.channels allValues] sortedArrayUsingComparator:^(DCChannel* c1, DCChannel* c2) {
+//        NSLog([NSString stringWithFormat:@"%@ | %@", c1.name, c2.name]);
+//        NSLog([NSString stringWithFormat:@"%@ | %@", c1.lastMessageReadOnLoginSnowflake, c2.lastMessageReadOnLoginSnowflake]);
+        if([c1.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]] || [c2.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]]) {
+            if([c1.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]] && ![c2.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]]) {
+                return (NSComparisonResult)NSOrderedDescending;
+            }else if(![c1.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]] && [c2.lastMessageReadOnLoginSnowflake isEqual:[NSNull null]]) {
+                return (NSComparisonResult)NSOrderedAscending;
+            }else{
+                return (NSComparisonResult)NSOrderedSame;
+            }
+//            NSLog(@"some snowflake is empty!");
+        }
         uint64_t c1LastMessage = [self snowflakeToDate:c1.lastMessageReadOnLoginSnowflake];
         uint64_t c2LastMessage = [self snowflakeToDate:c2.lastMessageReadOnLoginSnowflake];
-//        NSLog([NSString stringWithFormat:@"%@ | %@", c1.name, c2.name]);
         if (c2LastMessage > c1LastMessage) {
             return (NSComparisonResult)NSOrderedDescending;
         }
