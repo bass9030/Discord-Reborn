@@ -51,6 +51,9 @@ static NSOperationQueue* loadIconOperationQueue;
     
     //Guild members
     NSArray *jsonMembers = ((NSArray*)[dict objectForKey:@"members"]);
+//    if([self.snowflake isEqualToString:@"738201950218354708"]) {
+//        NSLog(@"breakPoint!");
+//    }
     self.members = [[NSMutableDictionary alloc] initWithCapacity:jsonMembers.count];
     for(NSDictionary *jsonMember in jsonMembers){
         DCGuildMember* member = [[DCGuildMember alloc]initFromDictionary:jsonMember inGuild:self];

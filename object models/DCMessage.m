@@ -63,7 +63,6 @@
         NSTextCheckingResult* numberMatch = [[numberRegex matchesInString:matchText options:0 range:NSMakeRange(0, matchText.length)] objectAtIndex:0];
         NSString* snowflake = [matchText substringWithRange:[numberMatch range]];
         NSString* username = [[RBClient.sharedInstance.userStore getUserBySnowflake:snowflake] username];
-        if(!username) username = @"UNKNOWN";
         self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"@%@", username]];
         NSLog(@"user mention found: %@ | name: %@", snowflake, username);
     }
@@ -74,7 +73,6 @@
         NSTextCheckingResult* numberMatch = [[numberRegex matchesInString:matchText options:0 range:NSMakeRange(0, matchText.length)] objectAtIndex:0];
         NSString* snowflake = [matchText substringWithRange:[numberMatch range]];
         NSString* rolename = [[[self.parentGuild roles] objectForKey:snowflake] name];
-        if(!rolename) rolename = @"UNKNOWN";
         self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"@%@", rolename]];
         NSLog(@"role mention found: %@ | name: %@", snowflake, rolename);
     }
@@ -85,7 +83,6 @@
         NSTextCheckingResult* numberMatch = [[numberRegex matchesInString:matchText options:0 range:NSMakeRange(0, matchText.length)] objectAtIndex:0];
         NSString* snowflake = [matchText substringWithRange:[numberMatch range]];
         NSString* channelname = [[[self.parentGuild channels] objectForKey:snowflake] name];
-        if(!channelname) channelname = @"UNKNOWN";
         self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"#%@", channelname]];
         NSLog(@"channel mention found: %@ | name: %@", snowflake, channelname);
     }

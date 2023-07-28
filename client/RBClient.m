@@ -54,7 +54,7 @@
 	NSString* gatewayAddress = (NSString*)dict[@"gateway address"];
 	
 	if(!gatewayAddress)
-		NSLog(@"!no gateway address fou	nd!");
+		NSLog(@"!no gateway address found!");
 	
 	NSURL *url = [NSURL URLWithString:gatewayAddress];
     

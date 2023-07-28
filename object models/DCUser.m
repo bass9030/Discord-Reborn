@@ -7,6 +7,7 @@
 //
 
 #import "DCUser.h"
+#import "UIKit/UIKit.h"
 #import "RBNotificationEvent.h"
 
 static NSOperationQueue* loadAvatarOperationQueue;

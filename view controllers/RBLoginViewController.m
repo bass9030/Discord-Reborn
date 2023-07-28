@@ -42,7 +42,7 @@
     
     if(lastUsableToken){
         self.tokenTextField.text = lastUsableToken;
-//        self.autoAuthenticated = YES;
+        self.autoAuthenticated = YES;
     }else{
         self.tokenTextField.text = UIPasteboard.generalPasteboard.string;
     }
