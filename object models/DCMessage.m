@@ -46,6 +46,9 @@
     
     self.parentGuild = [RBClient.sharedInstance.guildStore guildOfSnowflake:[dict objectForKey:@"guild_id"]];
     self.parentChannel = [RBClient.sharedInstance.guildStore channelOfSnowflake:[dict objectForKey:@"channel_id"]];
+//    NSLog([NSString stringWithFormat:@"guild_ID: %@", [dict objectForKey:@"guild_id"]]);
+    
+    NSArray* mentions = [dict objectForKey:@"mentions"];
     
     NSError* error = nil;
     NSRegularExpression* userMention = [NSRegularExpression regularExpressionWithPattern:@"<@(!){0,1}[0-9]{17,20}>" options:0 error:&error];
@@ -55,34 +58,64 @@
     NSArray* userMentionMatches = [userMention matchesInString:self.content options:0 range:NSMakeRange(0, [self.content length])];
     NSArray* roleMentionMatches = [roleMention matchesInString:self.content options:0 range:NSMakeRange(0, [self.content length])];
     NSArray* channelMentionMatches = [channelMention matchesInString:self.content options:0 range:NSMakeRange(0, [self.content length])];
-    
     NSString* tmpContent = [NSString stringWithString:self.content];
+    
+    
+    // user mentions
     for ( NSTextCheckingResult* match in userMentionMatches )
     {
         NSString* matchText = [tmpContent substringWithRange:[match range]];
         NSTextCheckingResult* numberMatch = [[numberRegex matchesInString:matchText options:0 range:NSMakeRange(0, matchText.length)] objectAtIndex:0];
-        NSString* snowflake = [matchText substringWithRange:[numberMatch range]];
-        NSString* username = [[RBClient.sharedInstance.userStore getUserBySnowflake:snowflake] username];
-        self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"@%@", username]];
-        NSLog(@"user mention found: %@ | name: %@", snowflake, username);
+        NSString* snowflake = [[matchText substringWithRange:[numberMatch range]] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        for(NSDictionary* mention in mentions) {
+            if([[mention objectForKey:@"id"] isEqualToString:snowflake]) {
+                NSString* username;
+                if([mention objectForKey:@"member"]) {
+                    username = [[mention objectForKey:@"member"] objectForKey:@"nick"];
+                }else{
+                    if([mention objectForKey:@"global_name"] != [NSNull null]) {
+                        username = [mention objectForKey:@"global_name"];
+                    }else{
+                        username = [mention objectForKey:@"username"];
+                    }
+                }
+                if(!username) {
+                    username = @"UNKNOWN_USER";
+                }
+                
+                self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"@%@", username]];
+                NSLog(@"user mention found: %@ | name: %@", snowflake, username);
+                break;
+            }
+        }
     }
     
+    // role mentions
     for ( NSTextCheckingResult* match in roleMentionMatches )
     {
         NSString* matchText = [tmpContent substringWithRange:[match range]];
         NSTextCheckingResult* numberMatch = [[numberRegex matchesInString:matchText options:0 range:NSMakeRange(0, matchText.length)] objectAtIndex:0];
         NSString* snowflake = [matchText substringWithRange:[numberMatch range]];
         NSString* rolename = [[[self.parentGuild roles] objectForKey:snowflake] name];
+        if(!rolename) {
+            rolename = @"UNKNOWN_ROLE";
+        }
+        
         self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"@%@", rolename]];
         NSLog(@"role mention found: %@ | name: %@", snowflake, rolename);
     }
     
+    // channel mentions
     for ( NSTextCheckingResult* match in channelMentionMatches )
     {
         NSString* matchText = [tmpContent substringWithRange:[match range]];
         NSTextCheckingResult* numberMatch = [[numberRegex matchesInString:matchText options:0 range:NSMakeRange(0, matchText.length)] objectAtIndex:0];
         NSString* snowflake = [matchText substringWithRange:[numberMatch range]];
         NSString* channelname = [[[self.parentGuild channels] objectForKey:snowflake] name];
+        if(!channelname) {
+            channelname = @"UNKNOWN_CHANNEL";
+        }
+        
         self.content = [self.content stringByReplacingOccurrencesOfString:matchText withString:[NSString stringWithFormat:@"#%@", channelname]];
         NSLog(@"channel mention found: %@ | name: %@", snowflake, channelname);
     }
