@@ -180,7 +180,7 @@
         if(attachment.attachmentType == DCMessageAttachmentTypeImage)
             bubbleData = [NSBubbleData dataWithImage:attachment.image date:attachment.timestamp type:!attachment.writtenByUser];
         else
-            bubbleData = [NSBubbleData dataWithText:[NSString stringWithFormat:@"<UNSUPPORTED ATTACHMENT, TYPE: %d>", attachment.attachmentType] date:attachment.timestamp type:!attachment.writtenByUser];
+            bubbleData = [NSBubbleData dataWithText:[NSString stringWithFormat:@"<UNSUPPORTED ATTACHMENT, fileURL: %@>", attachment.fileURL] date:attachment.timestamp type:!attachment.writtenByUser];
     }
     
     if(item.author.avatarImage) {

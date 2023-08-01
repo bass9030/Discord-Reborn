@@ -58,7 +58,10 @@
         
         DCChannel* channel = [self.channelDictionary objectForKey:channelSnowflake];
         
-        channel.isRead = [lastReadMessageSnowflake isEqualToString:channel.lastMessageReadOnLoginSnowflake];
+        if(channel.lastMessageReadOnLoginSnowflake)
+            channel.isRead = [lastReadMessageSnowflake isEqual:channel.lastMessageReadOnLoginSnowflake];
+        else
+            channel.isRead = false;
     }
     
     self.guildKeys = [[NSMutableArray alloc] init];
