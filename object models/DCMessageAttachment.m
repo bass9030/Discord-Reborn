@@ -40,12 +40,12 @@ static NSOperationQueue* attachmentLoadOperationQueue;
     
     self.parentMessage = parentMessage;
     
-//warning there's probably a much better way to do this
-// ok i changed it to a much better way for you :)
-    if([self.contentType hasPrefix:@"image/"])
+#warning there's probably a much better way to do this
+    if([[self.fileName pathExtension] isEqualToString:@"png"] || [[self.fileName pathExtension] isEqualToString:@"jpg"] || [[self.fileName pathExtension] isEqualToString:@"jpeg"] || [[self.fileName pathExtension] isEqualToString:@"gif"] || [[self.fileName pathExtension] isEqualToString:@"webp"])
         self.attachmentType = DCMessageAttachmentTypeImage;
     else
         self.attachmentType = DCMessageAttachmentTypeOther;
+
     
     if(!attachmentLoadOperationQueue){
         attachmentLoadOperationQueue = [[NSOperationQueue alloc] init];
