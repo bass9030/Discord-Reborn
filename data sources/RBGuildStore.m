@@ -41,7 +41,7 @@
 		DCGuild* guild = [[DCGuild alloc]initFromDictionary:jsonGuild];
 		[self.guildDictionary setObject:guild forKey:guild.snowflake];
         
-        if([guild.snowflake  isEqual: @"0"]) [self.channelDictionary addEntriesFromDictionary:guild.channels];
+        if([guild.snowflake isEqual: @"0"]) [self.channelDictionary addEntriesFromDictionary:guild.channels];
         else for(NSMutableArray* channels in [guild.channelsWithCategory allValues]) {
             for(DCChannel* channel in channels) {
                 [self.channelDictionary setObject:channel forKey:channel.snowflake];
@@ -61,7 +61,7 @@
         if(channel.lastMessageReadOnLoginSnowflake)
             channel.isRead = [lastReadMessageSnowflake isEqual:channel.lastMessageReadOnLoginSnowflake];
         else
-            channel.isRead = false;
+            channel.isRead = true;
     }
     
     self.guildKeys = [[NSMutableArray alloc] init];

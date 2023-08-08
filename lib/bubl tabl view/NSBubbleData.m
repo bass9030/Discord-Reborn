@@ -56,13 +56,12 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
     
-//    UITextView *textview = [[UITextView alloc] initWithFrame:CGRectMake(0,0,size.width,size.height)];
-    
-//    textview.text = (text ? text : @"");
-//    textview.font = font;
-//    textview.backgroundColor = [UIColor clearColor];
-//    textview. = false;
-//    textview.isDragging = false;
+//    UITextView *label = [[UITextView alloc] initWithFrame:CGRectMake(0,0,size.width,size.height)];
+//    label.text = (text ? text : @"");
+//    label.font = font;
+//    label.backgroundColor = [UIColor clearColor];
+//    label.editable = false;
+//    label.font = font;
     
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];

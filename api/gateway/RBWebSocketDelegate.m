@@ -120,7 +120,7 @@
             if(message.parentChannel != nil){
                 [message.parentChannel handleNewMessage:message];
             }else{
-                NSLog(@"wtf parentChannel is null");
+                NSLog(@"parentChannel is null");
             }
             break;
         }

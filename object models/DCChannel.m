@@ -72,7 +72,7 @@
     if(self.channelType == DCChannelTypeDirectMessage)return self;
     
     self.parentCatagorySnowflake = [dict objectForKey:@"parent_id"];
-    if(self.parentCatagorySnowflake == nil){
+    if([self.parentCatagorySnowflake isEqual:[NSNull null]] || self.parentCatagorySnowflake == nil){
         self.parentCatagorySnowflake = @"no cat";
     }
     

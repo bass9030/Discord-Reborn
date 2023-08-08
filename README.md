@@ -11,12 +11,12 @@ A Discord client for iOS 6 +
 * Show channel categories
 * Auto Login
 * Image Viewer
-* Contact viewer(Roll back to a previous commit)
-* A half-working mention name display
+* Mention name display
 
 ### Short Term
-* Mention, link hyperlinks
+* Mention, Web url hyperlinks
 * Codeblock support
+* Contact viewer (Try to find the better way)
 
 ### Long Term (Might not be implemented)
 * Embed message

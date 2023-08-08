@@ -207,8 +207,8 @@
 #pragma mark uibubble	tableviewdelegate
 
 - (void)bubbleTableView:(UIBubbleTableView *)bubbleTableView didSelectRow:(int) row{
-    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
-    [self performSegueWithIdentifier:@"chat to contact" sender:self];
+//    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
+//    [self performSegueWithIdentifier:@"chat to contact" sender:self];
 }
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{

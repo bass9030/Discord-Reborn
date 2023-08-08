@@ -13,6 +13,7 @@
 #import "RBGuildStore.h"
 #import "DCGuild.h"
 #import "RBNotificationEvent.h"
+#import "UIKit/UIKit.h"
 
 @interface RBGuildMenuViewController ()
 
@@ -52,7 +53,7 @@
         NSLog([NSString stringWithFormat:@"guildChange: %d", indexPath.row]);
 		self.selectedGuild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
         self.navigationItem.title = self.selectedGuild.name;
-		[self.channelTableView reloadData];
+		[_channelTableView reloadData];
 	}
     
     if(tableView == self.channelTableView){
@@ -116,11 +117,15 @@
 		cell.textLabel.text = @"";
         
         if(!guild.iconImage){
-            [guild queueLoadIconImage];
+            if(!guild.iconHash || [guild.iconHash isEqual:[NSNull null]]) {
+                cell.textLabel.text = guild.name;
+            }else{
+                [guild queueLoadIconImage];
+            }
         }
         
         cell.imageView.image = guild.iconImage;
-	}
+    }
 	
 	if(tableView == self.channelTableView){
         DCChannel* channel;
@@ -142,10 +147,27 @@
         
         UITableViewCellAccessoryType unreadIndicatorType;
         
+        
+        
         if(channel.isRead){
             unreadIndicatorType = UITableViewCellAccessoryDisclosureIndicator;
         }else{
             unreadIndicatorType = UITableViewCellAccessoryDetailDisclosureButton;
+        }
+        
+        
+        NSLog(@"%@ | channel type: %d", channel.name, channel.channelType);
+
+        if(channel.channelType == DCChannelTypeGuildText ||
+           channel.channelType == DCChannelTypeDirectMessage ||
+           channel.channelType == DCChannelTypeGroupMessage ||
+           channel.channelType == DCChannelTypeGuildNews) {
+            cell.userInteractionEnabled = true;
+            cell.textLabel.textColor = [UIColor blackColor];
+        }else {
+            cell.userInteractionEnabled = false;
+            cell.textLabel.textColor = [UIColor grayColor];
+            unreadIndicatorType = UITableViewCellAccessoryDisclosureIndicator;
         }
         
         cell.accessoryType = unreadIndicatorType;

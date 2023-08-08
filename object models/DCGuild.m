@@ -81,6 +81,8 @@ static NSOperationQueue* loadIconOperationQueue;
     [self.categorys setObject:noCategory forKey:noCategory.snowflake];
     [self.channelsWithCategory setObject:[NSMutableArray new] forKey:noCategory.snowflake];
 	
+    
+    // add categorys
     for(NSDictionary *jsonChannel in jsonChannels){
 		DCChannel *channel = [[DCChannel alloc] initFromDictionary:jsonChannel andGuild:self];
         if(channel.channelType == DCChannelTypeGuildCatagory) {
@@ -89,6 +91,8 @@ static NSOperationQueue* loadIconOperationQueue;
         }else continue;
 	}
     
+    
+    // add channels
     for(NSDictionary* jsonChannel in jsonChannels) {
         DCChannel *channel = [[DCChannel alloc] initFromDictionary:jsonChannel andGuild:self];
         if(channel.channelType != DCChannelTypeGuildCatagory) {
