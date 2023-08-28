@@ -17,6 +17,7 @@ A Discord client for iOS 6 +
 * Mention, Web url hyperlinks
 * Codeblock support
 * Contact viewer (Try to find the better way)
+* Fix image upload
 
 ### Long Term (Might not be implemented)
 * Embed message
