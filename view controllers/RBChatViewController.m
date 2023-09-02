@@ -42,7 +42,9 @@
     self.chatTableView.watchingInRealTime = YES;
     
     self.imagePickerController = UIImagePickerController.new;
-	self.imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+	self.imagePickerController.sourceType = ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] ?
+                                             UIImagePickerControllerSourceTypePhotoLibrary :
+                                             UIImagePickerControllerSourceTypeSavedPhotosAlbum);
     
     [NSNotificationCenter.defaultCenter addObserver:self
                                            selector:@selector(keyboardWillShow:)
