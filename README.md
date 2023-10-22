@@ -7,19 +7,4 @@ A Discord client for iOS 6 +
 * App crashes on login
 
 ## TODO
-### Done!
-* Show channel categories
-* Auto Login
-* Image Viewer
-* Mention name display
-
-### Short Term
-* Mention, Web url hyperlinks
-* Codeblock support
-* Contact viewer (Try to find the better way)
-* Fix image upload
-
-### Long Term (Might not be implemented)
-* Embed message
-* Emoji(ex: `:thinking:` -> <img src="https://em-content.zobj.net/thumbs/120/twitter/351/thinking-face_1f914.png" alt="thinking face emoji" style="vertical-align: middle;" width="20px"/>)
-* Voice chat..?
+TODOs are moved to [project tab](https://github.com/users/bass9030/projects/1)
