@@ -42,6 +42,7 @@
     self.chatTableView.watchingInRealTime = YES;
     
     self.imagePickerController = UIImagePickerController.new;
+    self.imagePickerController.delegate = self;
 	self.imagePickerController.sourceType = ([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypePhotoLibrary] ?
                                              UIImagePickerControllerSourceTypePhotoLibrary :
                                              UIImagePickerControllerSourceTypeSavedPhotosAlbum);
@@ -232,6 +233,8 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
 	
 	[picker dismissModalViewControllerAnimated:YES];
+    
+    NSLog(@"didFinishPickingMediaWithInfo called");
 	
 	UIImage* originalImage = [info objectForKey:UIImagePickerControllerEditedImage];
 	
