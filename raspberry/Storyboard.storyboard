@@ -295,8 +295,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="DWB-Ed-EM6"/>
+                    <navigationItem key="navigationItem" id="DWB-Ed-EM6">
+                        <barButtonItem key="rightBarButtonItem" title="Download" id="RDB-aM-e0k">
+                            <connections>
+                                <action selector="OnDownloadButtonWasPressed:" destination="bC6-oq-qpP" id="1oE-Jp-qqw"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="downloadBtn" destination="RDB-aM-e0k" id="4EJ-WK-9Je"/>
                         <outlet property="imgView" destination="4pU-qn-5Zk" id="BSC-1T-IVT"/>
                         <outlet property="scrollView" destination="7gH-WQ-GDm" id="xQA-iX-fHb"/>
                     </connections>

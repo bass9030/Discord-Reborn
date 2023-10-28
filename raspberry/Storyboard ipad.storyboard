@@ -177,7 +177,9 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="uRI-u1-ra2"/>
+                    <navigationItem key="navigationItem" id="uRI-u1-ra2">
+                        <barButtonItem key="rightBarButtonItem" title="Download" id="WJg-o3-m1I"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="imgView" destination="tQf-Ik-tpj" id="oG0-gz-D5G"/>
                         <outlet property="scrollView" destination="QPC-qR-hiw" id="3zo-XO-IhO"/>
