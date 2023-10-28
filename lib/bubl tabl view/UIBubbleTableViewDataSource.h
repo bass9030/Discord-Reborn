@@ -14,12 +14,10 @@
 @class UIBubbleTableView;
 @protocol UIBubbleTableViewDataSource <NSObject>
 
-@optional
-
 @required
 
 - (NSInteger)rowsForBubbleTable:(UIBubbleTableView *)tableView;
 - (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row;
-- (void)didSelectNSBubbleDataCell:(NSBubbleData *)dataCell;
-
+- (void)didSelectImageDataCell:(NSBubbleData *)dataCell;
+- (void)didSelectAvatarDataCell:(NSBubbleData *)dataCell;
 @end

@@ -14,6 +14,7 @@
 #import "UIBubbleTableViewCell.h"
 #import "UIBubbleTableViewDelegate.h"
 
+
 typedef enum _NSBubbleTypingType
 {
     NSBubbleTypingTypeNobody = 0,
@@ -27,6 +28,8 @@ typedef enum _NSBubbleTypingType
 @property (nonatomic) NSTimeInterval snapInterval;
 @property (nonatomic) NSBubbleTypingType typingBubble;
 @property (nonatomic) BOOL showAvatars;
+@property (nonatomic) BOOL activeAvatars;
+@property (strong, nonatomic) id touchResponder;
 @property (nonatomic) BOOL watchingInRealTime;
 @property (nonatomic, assign) IBOutlet id<UIBubbleTableViewDelegate> bubbleDelegate;
 

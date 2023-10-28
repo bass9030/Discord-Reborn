@@ -9,6 +9,7 @@
 //
 
 #import "NSBubbleData.h"
+#import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
 @implementation NSBubbleData
@@ -20,6 +21,7 @@
 @synthesize view = _view;
 @synthesize insets = _insets;
 @synthesize avatar = _avatar;
+@synthesize buttonSelector = _buttonSelector;
 
 #pragma mark - Lifecycle
 
@@ -42,27 +44,19 @@
 const UIEdgeInsets textInsetsMine = {5, 10, 11, 17};
 const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
 
-+ (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type
++ (id) dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type selector:(NSString *)selector
 {
 #if !__has_feature(objc_arc)
-    return [[[NSBubbleData alloc] initWithText:text date:date type:type] autorelease];
+    return [[[NSBubbleData alloc] initWithText:text date:date type:type selector:selector] autorelease];
 #else
-    return [[NSBubbleData alloc] initWithText:text date:date type:type];
-#endif    
+    return [[NSBubbleData alloc] initWithText:text date:date type:type selector:selector];
+#endif 
 }
 
-- (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type
+- (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type selector:(NSString *)selector
 {
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
     CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
-    
-//    UITextView *label = [[UITextView alloc] initWithFrame:CGRectMake(0,0,size.width,size.height)];
-//    label.text = (text ? text : @"");
-//    label.font = font;
-//    label.backgroundColor = [UIColor clearColor];
-//    label.editable = false;
-//    label.font = font;
-    
     
     UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
     label.numberOfLines = 0;
@@ -72,12 +66,11 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     label.backgroundColor = [UIColor clearColor];
     
 #if !__has_feature(objc_arc)
-//    [textview autorelease];
     [label autorelease];
 #endif
     
     UIEdgeInsets insets = (type == BubbleTypeMine ? textInsetsMine : textInsetsSomeone);
-    return [self initWithView:label date:date type:type insets:insets];
+    return [self initWithView:label date:date type:type insets:insets selector:selector];
 }
 
 #pragma mark - Image bubble
@@ -114,21 +107,21 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
 #endif
     
     UIEdgeInsets insets = (type == BubbleTypeMine ? imageInsetsMine : imageInsetsSomeone);
-    return [self initWithView:button date:date type:type insets:insets];
+    return [self initWithView:button date:date type:type insets:insets selector:nil];
 }
 
 #pragma mark - Custom view bubble
 
-+ (id)dataWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets
++ (id)dataWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets selector:(NSString *)selector
 {
 #if !__has_feature(objc_arc)
-    return [[[NSBubbleData alloc] initWithView:view date:date type:type insets:insets] autorelease];
+    return [[[NSBubbleData alloc] initWithView:view date:date type:type insets:insets selector:selector] autorelease];
 #else
-    return [[NSBubbleData alloc] initWithView:view date:date type:type insets:insets];
+    return [[NSBubbleData alloc] initWithView:view date:date type:type insets:insets selector:selector];
 #endif    
 }
 
-- (id)initWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets  
+- (id)initWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets selector:(NSString *)selector
 {
     self = [super init];
     if (self)
@@ -136,9 +129,15 @@ const UIEdgeInsets imageInsetsSomeone = {11, 18, 16, 14};
 #if !__has_feature(objc_arc)
         _view = [view retain];
         _date = [date retain];
+        if (selector) {
+            _buttonSelector = [buttonSelector retain];
+        }
 #else
         _view = view;
         _date = date;
+        if (selector) {
+            _buttonSelector = selector;
+        }
 #endif
         _type = type;
         _insets = insets;

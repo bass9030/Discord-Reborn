@@ -25,12 +25,13 @@ typedef enum _NSBubbleType
 @property (readonly, nonatomic) UIEdgeInsets insets;
 @property (nonatomic, strong) UIImage *avatar;
 @property NSInteger index;
+@property (readonly, nonatomic, strong) NSString *buttonSelector;
 
-- (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
-+ (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type;
+- (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type selector:(NSString *)selector;
++ (id)dataWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type selector:(NSString *)selector;
 - (id)initWithImage:(UIImage *)image date:(NSDate *)date type:(NSBubbleType)type;
 + (id)dataWithImage:(UIImage *)image date:(NSDate *)date type:(NSBubbleType)type;
-- (id)initWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
-+ (id)dataWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets;
+- (id)initWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets selector:(NSString *)selector;
++ (id)dataWithView:(UIView *)view date:(NSDate *)date type:(NSBubbleType)type insets:(UIEdgeInsets)insets selector:(NSString *)selector;
 
 @end

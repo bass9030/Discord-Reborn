@@ -15,5 +15,9 @@
 
 @property (nonatomic, strong) NSBubbleData *data;
 @property (nonatomic) BOOL showAvatar;
+@property (nonatomic) BOOL activeAvatar;
+@property (strong, nonatomic) NSString *buttonSelector;
+
+- (UIButton *) avatarImage;
 
 @end

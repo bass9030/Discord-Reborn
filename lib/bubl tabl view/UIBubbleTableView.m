@@ -21,10 +21,13 @@
 
 @implementation UIBubbleTableView
 
-	@synthesize snapInterval = _snapInterval;
+@synthesize bubbleDataSource = _bubbleDataSource;
+@synthesize snapInterval = _snapInterval;
 @synthesize bubbleSection = _bubbleSection;
 @synthesize typingBubble = _typingBubble;
 @synthesize showAvatars = _showAvatars;
+@synthesize activeAvatars = _activeAvatars;
+@synthesize touchResponder = _touchResponder;
 
 #pragma mark - Initializators
 
@@ -73,15 +76,17 @@
     return self;
 }
 
-#if !__has_feature(objc_arc)
+
 - (void)dealloc
 {
+#if !__has_feature(objc_arc)
     [_bubbleSection release];
 	_bubbleSection = nil;
 	_bubbleDataSource = nil;
     [super dealloc];
-}
 #endif
+}
+
 
 #pragma mark - Override
 
@@ -245,13 +250,31 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
     
     if (cell == nil) cell = [[UIBubbleTableViewCell alloc] init];
+    
     cell.data = data;
     cell.showAvatar = self.showAvatars;
     
     UIButton *button = (UIButton*)[data.view viewWithTag:1];
     [button addTarget:self action:@selector(imageButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
     
+    cell.activeAvatar = self.activeAvatars;
+    if (self.activeAvatars) {
+        [cell.avatarImage addTarget:self.touchResponder action:@selector(avatarButtonTapped:event:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    
     return cell;
+}
+
+- (void) avatarButtonTapped:(id)sender event:(id)event {
+    NSSet *touches = [event allTouches];
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:self];
+    NSIndexPath *indexPath = [self indexPathForRowAtPoint: currentTouchPosition];
+    if (indexPath.row != 0)
+    {
+        NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
+        [self.bubbleDataSource didSelectAvatarDataCell:data];
+    }
 }
 
 - (void) imageButtonTapped:(id)sender event:(id)event {
@@ -262,7 +285,7 @@ didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.row != 0)
     {
         NSBubbleData *data = [[self.bubbleSection objectAtIndex:indexPath.section] objectAtIndex:indexPath.row - 1];
-        [self.bubbleDataSource didSelectNSBubbleDataCell:data];
+        [self.bubbleDataSource didSelectImageDataCell:data];
     }
 }
 

@@ -10,14 +10,13 @@
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIBubbleTableViewCell.h"
-#import "UIBubbleTableView.h"
 #import "NSBubbleData.h"
 
 @interface UIBubbleTableViewCell ()
 
 @property (nonatomic, retain) UIView *customView;
-@property (nonatomic, retain) UIImageView *avatarImage;
 @property (nonatomic, retain) UIImageView *bubbleImage;
+@property (nonatomic, retain) UIButton *avatarImage;
 
 - (void) setupInternalData;
 
@@ -29,7 +28,18 @@
 @synthesize customView = _customView;
 @synthesize bubbleImage = _bubbleImage;
 @synthesize showAvatar = _showAvatar;
-//@synthesize avatarImage = _avatarImage;
+@synthesize avatarImage = _avatarImage;
+@synthesize activeAvatar = _activeAvatar;
+@synthesize buttonSelector = _buttonSelector;
+
+
+- (UIButton *) avatarImage
+{
+    if (!_avatarImage) {
+        _avatarImage = [[UIButton alloc] init];
+    }
+    return _avatarImage;
+}
 
 - (void)setFrame:(CGRect)frame
 {
@@ -37,16 +47,21 @@
 	[self setupInternalData];
 }
 
-#if !__has_feature(objc_arc)
+
 - (void) dealloc
 {
+    if (self.activeAvatar) {
+        [self.avatarImage removeTarget:nil action:NULL forControlEvents:UIControlEventAllEvents];
+    }
+#if !__has_feature(objc_arc)
     self.data = nil;
     self.customView = nil;
     self.bubbleImage = nil;
     self.avatarImage = nil;
     [super dealloc];
-}
 #endif
+}
+
 
 - (void)setDataInternal:(NSBubbleData *)value
 {
@@ -80,12 +95,7 @@
     if (self.showAvatar)
     {
         [self.avatarImage removeFromSuperview];
-
-#if !__has_feature(objc_arc)
-        self.avatarImage = [[[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])] autorelease];
-#else
-        self.avatarImage = [[UIImageView alloc] initWithImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"])];
-#endif
+        [self.avatarImage setImage:(self.data.avatar ? self.data.avatar : [UIImage imageNamed:@"missingAvatar.png"]) forState:UIControlStateNormal];
         self.avatarImage.layer.cornerRadius = 9.0;
         self.avatarImage.layer.masksToBounds = YES;
         self.avatarImage.layer.borderColor = [UIColor colorWithWhite:0.0 alpha:0.2].CGColor;
@@ -112,13 +122,14 @@
     if (type == BubbleTypeSomeoneElse)
     {
         self.bubbleImage.image = [[UIImage imageNamed:@"bubbleSomeone.png"] stretchableImageWithLeftCapWidth:21 topCapHeight:14];
-
     }
     else {
         self.bubbleImage.image = [[UIImage imageNamed:@"bubbleMine.png"] stretchableImageWithLeftCapWidth:15 topCapHeight:14];
     }
 
     self.bubbleImage.frame = CGRectMake(x, y, width + self.data.insets.left + self.data.insets.right, height + self.data.insets.top + self.data.insets.bottom);
+    
+    self.buttonSelector = self.data.buttonSelector;
 }
 
 @end
