@@ -39,7 +39,9 @@
 
 -(void)viewDidLoad{
     self.chatTableView.showAvatars = YES;
+    self.chatTableView.activeAvatars = YES;
     self.chatTableView.watchingInRealTime = YES;
+    self.chatTableView.bubbleDataSource = self;
     
     self.imagePickerController = UIImagePickerController.new;
     self.imagePickerController.delegate = self;
@@ -63,11 +65,6 @@
     
     if ( UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad )
         self.navigationItem.hidesBackButton = YES;
-    
-//    UITapGestureRecognizer *singleFingerTap =
-//    [[UITapGestureRecognizer alloc] initWithTarget:self
-//                                            action:@selector(didProfileSelect:)];
-//    [self.view addGestureRecognizer:singleFingerTap];
 }
 
 -(void)chatReceived:(NSNotification *)notification {
@@ -160,9 +157,14 @@
     return self.subscribedChannel.messagesAndAttachments.count;
 }
 
--(void) didSelectNSBubbleDataCell:(NSBubbleData *)dataCell {
+-(void) didSelectImageDataCell:(NSBubbleData *)dataCell {
     self.selectedImg = [(DCMessageAttachment*)[self.subscribedChannel.messagesAndAttachments objectAtIndex:dataCell.index] image];
     [self performSegueWithIdentifier:@"chat to imgview" sender:self];
+}
+
+-(void) didSelectAvatarDataCell:(NSBubbleData *)dataCell {
+    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:dataCell.index];
+    [self performSegueWithIdentifier:@"chat to contact" sender:self];
 }
 
 -(NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row{
@@ -175,7 +177,7 @@
         DCMessage* message = (DCMessage*)item;
         NSString* bubbleText;
         bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
-        bubbleData = [NSBubbleData dataWithText:bubbleText date:message.timestamp type:!message.writtenByUser];
+        bubbleData = [NSBubbleData dataWithText:bubbleText date:message.timestamp type:!message.writtenByUser selector:nil];
     }
     
     if([item isKindOfClass:[DCMessageAttachment class]]) {
@@ -183,7 +185,7 @@
         if(attachment.attachmentType == DCMessageAttachmentTypeImage)
             bubbleData = [NSBubbleData dataWithImage:attachment.image date:attachment.timestamp type:!attachment.writtenByUser];
         else
-            bubbleData = [NSBubbleData dataWithText:[NSString stringWithFormat:@"<UNSUPPORTED ATTACHMENT, fileURL: %@>", attachment.fileURL] date:attachment.timestamp type:!attachment.writtenByUser];
+            bubbleData = [NSBubbleData dataWithText:[NSString stringWithFormat:@"<UNSUPPORTED ATTACHMENT, fileURL: %@>", attachment.fileURL] date:attachment.timestamp type:!attachment.writtenByUser selector:nil];
     }
     
     if(item.author.avatarImage) {
@@ -194,6 +196,7 @@
     
     return bubbleData;
 }
+
 
 - (IBAction)imageUploadButtonWasPressed:(UIBarButtonItem *)sender {
     [self.messageField resignFirstResponder];
@@ -208,11 +211,10 @@
 }
 
 #pragma mark uibubble	tableviewdelegate
-
-- (void)bubbleTableView:(UIBubbleTableView *)bubbleTableView didSelectRow:(int) row{
-//    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:row];
-//    [self performSegueWithIdentifier:@"chat to contact" sender:self];
+- (void)bubbleTableView:(UIBubbleTableView *)bubbleTableView didSelectRow:(int)row {
+    //TODO: process hyperlink
 }
+
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.destinationViewController class] == [RBContactViewController class]){
@@ -234,8 +236,6 @@
 	
 	[picker dismissModalViewControllerAnimated:YES];
     
-    NSLog(@"didFinishPickingMediaWithInfo called");
-	
 	UIImage* originalImage = [info objectForKey:UIImagePickerControllerEditedImage];
 	
 	if(originalImage==nil)

@@ -11,6 +11,8 @@
 @interface RBImageViewController ()
 @property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (weak, nonatomic) IBOutlet UIImageView *imgView;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *downloadBtn;
+
 @end
 
 @implementation RBImageViewController
@@ -41,6 +43,17 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (IBAction)OnDownloadButtonWasPressed:(UIBarButtonItem*)sender
+{
+    NSLog(@"Download btn click");
+    // TODO: add Image Save
+//    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+//    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Image.png"];
+//    
+//    // Save image.
+//    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
 }
 
 /*

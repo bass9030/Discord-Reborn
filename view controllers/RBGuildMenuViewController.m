@@ -50,14 +50,12 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	
 	if(tableView == self.guildTableView){
-        NSLog([NSString stringWithFormat:@"guildChange: %d", indexPath.row]);
 		self.selectedGuild = [RBClient.sharedInstance.guildStore guildAtIndex:(int)indexPath.row];
         self.navigationItem.title = self.selectedGuild.name;
 		[_channelTableView reloadData];
 	}
     
     if(tableView == self.channelTableView){
-//        NSLog([NSString stringWithFormat:@"channelChange: %d", indexPath.row]);
         if([self.selectedGuild.snowflake isEqual:@"0"]) {
             self.selectedChannel = (DCChannel*)[self.selectedGuild.sortedChannels objectAtIndex:indexPath.row];
         }else{
@@ -75,7 +73,6 @@
 // category count
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if(tableView == self.guildTableView || [self.selectedGuild.snowflake isEqual:@"0"]) return 1;
-//    NSLog([NSString stringWithFormat:@"categoryCnt: %d", self.selectedGuild.channelsWithCategory.allKeys.count]);
     return self.selectedGuild.channelsWithCategory.allKeys.count;
 }
 
@@ -83,17 +80,14 @@
 // category title
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if(tableView == self.guildTableView || [self.selectedGuild.snowflake isEqual:@"0"]) return @"";
-//    NSLog([NSString stringWithFormat:@"titleForHeaderInSection %d", section]);
     NSString* categorySnowflake = [self.selectedGuild.sortedCategorys objectAtIndex:section];
     NSString* categoryName = [[self.selectedGuild.categorys objectForKey:categorySnowflake] name];
-//    NSLog([NSString stringWithFormat:@"selectChannelName: %@ | Category: %@", selectedChannel.name, categoryName]);
     return categoryName;
 }
 
 
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-//    NSLog(@"numberOfRowsInSection");
 	if(tableView == self.guildTableView)
 		return [RBClient.sharedInstance.guildStore count];
 	
@@ -155,9 +149,6 @@
             unreadIndicatorType = UITableViewCellAccessoryDetailDisclosureButton;
         }
         
-        
-        NSLog(@"%@ | channel type: %d", channel.name, channel.channelType);
-
         if(channel.channelType == DCChannelTypeGuildText ||
            channel.channelType == DCChannelTypeDirectMessage ||
            channel.channelType == DCChannelTypeGroupMessage ||

@@ -11,4 +11,5 @@
 @interface RBImageViewController : UIViewController
 -(void)setSelectedImg:(UIImage*)img;
 - (UIView*) viewForZoomingInScrollView:(UIScrollView*)scrollview;
+- (IBAction) OnDownloadButtonWasPressed : (UIButton*) sender;
 @end

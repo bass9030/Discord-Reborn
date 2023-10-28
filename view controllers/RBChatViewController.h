@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DCChannel.h"
 #import "UIBubbleTableView.h"
+#import "UIBubbleTableViewDelegate.h"
 
 @interface RBChatViewController : UIViewController <UIBubbleTableViewDataSource, UIImagePickerControllerDelegate, UIBubbleTableViewDelegate>
 
