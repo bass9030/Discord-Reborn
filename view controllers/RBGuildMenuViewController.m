@@ -169,7 +169,7 @@
 
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if([segue.destinationViewController class] == [RBChatViewController class]){
-        [((RBChatViewController*)segue.destinationViewController) subscribeToChannelEvents:self.selectedChannel loadNumberOfMessages:50];
+        [((RBChatViewController*)segue.destinationViewController) subscribeToChannelEvents:self.selectedChannel loadNumberOfMessages:20];
         ((RBChatViewController*)segue.destinationViewController).title = self.selectedChannel.name;
     }
 }

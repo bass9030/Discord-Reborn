@@ -10,6 +10,7 @@
 #import "FTWCache.h"
 #import "RBNotificationEvent.h"
 #import "DCMessage.h"
+#import "UIKit/UIKit.h"
 
 static NSOperationQueue* attachmentLoadOperationQueue;
 
@@ -58,7 +59,7 @@ static NSOperationQueue* attachmentLoadOperationQueue;
 - (void)queueLoadContent {
     
     if(self.image || self.attachmentType != DCMessageAttachmentTypeImage) return;
-        
+
     self.image = [UIImage new];
     
     NSBlockOperation *loadImageOperation = [NSBlockOperation new];
@@ -66,14 +67,7 @@ static NSOperationQueue* attachmentLoadOperationQueue;
     __weak __typeof__(NSBlockOperation) *weakOp = loadImageOperation;
         
     [loadImageOperation addExecutionBlock:^{
-            
-        NSLog(@"loading attachment image... %@", self.fileURL);
-            
         NSData *data = [NSData dataWithContentsOfURL:self.fileURL];
-            
-        NSLog(@"loaded image %@", self.fileURL);
-        
-//        [UIImage animatedImageWithAnimatedGIFData:data];
         self.image = [UIImage imageWithData:data];
         
         if(weakOp.isCancelled) return;

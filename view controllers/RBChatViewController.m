@@ -31,7 +31,6 @@
 
 @property UIImagePickerController *imagePickerController;
 @property id <RBMessageItem> selectedMessageItem;
-@property UIImage* selectedImg;
 
 @end
 
@@ -158,7 +157,7 @@
 }
 
 -(void) didSelectImageDataCell:(NSBubbleData *)dataCell {
-    self.selectedImg = [(DCMessageAttachment*)[self.subscribedChannel.messagesAndAttachments objectAtIndex:dataCell.index] image];
+    self.selectedMessageItem = [self.subscribedChannel.messagesAndAttachments objectAtIndex:dataCell.index];
     [self performSegueWithIdentifier:@"chat to imgview" sender:self];
 }
 
@@ -220,7 +219,7 @@
     if([segue.destinationViewController class] == [RBContactViewController class]){
         [((RBContactViewController*)segue.destinationViewController) setSelectedUser:self.selectedMessageItem.author];
     }else if([segue.destinationViewController class] == [RBImageViewController class]) {
-        [((RBImageViewController*)segue.destinationViewController) setSelectedImg:self.selectedImg];
+        [((RBImageViewController*)segue.destinationViewController) setSelectedImg:self.selectedMessageItem];
     }
 }
 

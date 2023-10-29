@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DCDiscordObject.h"
 #import "RBMessageItem.h"
+#import "UIKit/UIKit.h"
 
 @class DCMessage;
 

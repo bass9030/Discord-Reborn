@@ -97,6 +97,7 @@
 /* Begin PBXFileReference section */
 		024663812A723669009DA6BB /* RBImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBImageViewController.h; sourceTree = "<group>"; };
 		024663822A723669009DA6BB /* RBImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBImageViewController.m; sourceTree = "<group>"; };
+		02AB4E602AECFE5C00C6C0ED /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AssetsLibrary.framework; sourceTree = DEVELOPER_DIR; };
 		090E0E7922481240004B30AC /* API Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "API Settings.plist"; sourceTree = "<group>"; };
 		091B9D95226B5C2C0047C75B /* RBGatewayHeart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBGatewayHeart.h; sourceTree = "<group>"; };
 		091B9D96226B5C2C0047C75B /* RBGatewayHeart.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBGatewayHeart.m; sourceTree = "<group>"; };
@@ -315,6 +316,7 @@
 		09610CBF224745F5000E65E1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				02AB4E602AECFE5C00C6C0ED /* AssetsLibrary.framework */,
 				09EF39062247CB3900C3FA68 /* Security.framework */,
 				09EF39042247CB3400C3FA68 /* CFNetwork.framework */,
 				09EF39022247CB2F00C3FA68 /* libicucore.dylib */,
