@@ -175,7 +175,11 @@
     if([item isKindOfClass:[DCMessage class]]) {
         DCMessage* message = (DCMessage*)item;
         NSString* bubbleText;
-        bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
+        if([message.content length] == 0) {
+            bubbleText = [NSString stringWithFormat:@"%@:", message.author.username];
+        }else{
+            bubbleText = [NSString stringWithFormat:@"%@:\n%@", message.author.username, message.content];
+        }
         bubbleData = [NSBubbleData dataWithText:bubbleText date:message.timestamp type:!message.writtenByUser selector:nil];
     }
     
@@ -211,7 +215,6 @@
 
 #pragma mark uibubble	tableviewdelegate
 - (void)bubbleTableView:(UIBubbleTableView *)bubbleTableView didSelectRow:(int)row {
-    //TODO: process hyperlink
 }
 
 

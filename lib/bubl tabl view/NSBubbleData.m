@@ -56,14 +56,19 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type selector:(NSString *)selector
 {
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize fontSize = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-    label.numberOfLines = 0;
-    label.lineBreakMode = NSLineBreakByWordWrapping;
+    UITextView *label = [[UITextView alloc] init];
+    label.contentInset = UIEdgeInsetsMake(-8,-8,-8,-8);
+    label.scrollEnabled = NO;
+    label.dataDetectorTypes = UIDataDetectorTypeAll;
     label.text = (text ? text : @"");
     label.font = font;
+    label.editable = NO;
     label.backgroundColor = [UIColor clearColor];
+    label.translatesAutoresizingMaskIntoConstraints = NO;
+    CGSize contentSize = [label sizeThatFits:CGSizeMake(fontSize.width + 16, CGFLOAT_MAX)];
+    label.frame = CGRectMake(0, 0, contentSize.width, contentSize.height - 16);
     
 #if !__has_feature(objc_arc)
     [label autorelease];
