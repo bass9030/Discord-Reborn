@@ -56,19 +56,63 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type selector:(NSString *)selector
 {
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    CGSize fontSize = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
+
+    // TTTAttributedLabel
+//    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByCharWrapping];
+//    
+//    TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+//    label.numberOfLines = 0;
+//    label.lineBreakMode = NSLineBreakByWordWrapping;
+//    [label setText:text ? text : @""];
+//    [label setFont:font];
+//    label.backgroundColor = [UIColor clearColor];
+//    NSDictionary *linkAttr = @{ NSForegroundColorAttributeName: [UIColor blueColor],
+//                                NSUnderlineStyleAttributeName: [NSNumber numberWithInt:1] };
+//    label.linkAttributes = linkAttr;
+//    label.activeLinkAttributes = linkAttr;
+//    label.inactiveLinkAttributes = linkAttr;
     
-    UITextView *label = [[UITextView alloc] init];
-    label.contentInset = UIEdgeInsetsMake(-8,-8,-8,-8);
-    label.scrollEnabled = NO;
-    label.dataDetectorTypes = UIDataDetectorTypeAll;
-    label.text = (text ? text : @"");
-    label.font = font;
-    label.editable = NO;
-    label.backgroundColor = [UIColor clearColor];
-    label.translatesAutoresizingMaskIntoConstraints = NO;
-    CGSize contentSize = [label sizeThatFits:CGSizeMake(fontSize.width + 16, CGFLOAT_MAX)];
-    label.frame = CGRectMake(0, 0, contentSize.width, contentSize.height - 16);
+    NSError *error = nil;
+    NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:&error];
+    if (error == nil) {
+        NSArray *matches = [detector matchesInString:label.text
+                                             options:0
+                                               range:NSMakeRange(0, [label.text length])];
+        for (NSTextCheckingResult *match in matches) {
+            NSRange matchRange = [match range];
+            if ([match resultType] == NSTextCheckingTypeLink) {
+                NSURL *url = [match URL];
+                [label addLinkToURL:url withRange:matchRange];
+            }
+        }
+    }
+    
+    
+    // ==== UILabel ====
+//    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByCharWrapping];
+//    
+//    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+//    label.numberOfLines = 0;
+//    label.lineBreakMode = NSLineBreakByWordWrapping;
+//    [label setText:text ? text : @""];
+//    [label setFont:font];
+//    label.backgroundColor = [UIColor clearColor];
+    
+// ==== UITextView ====
+//    CGSize fontSize = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
+//    
+//    UITextView *label = [[UITextView alloc] init];
+//    [label setText: (text ? text : @"")];
+//
+//    label.contentInset = UIEdgeInsetsMake(-8,-8,-8,-8);
+//    label.scrollEnabled = NO;
+//    label.dataDetectorTypes = UIDataDetectorTypeAll;
+//    label.font = font;
+//    label.editable = NO;
+//    label.backgroundColor = [UIColor clearColor];
+//    label.translatesAutoresizingMaskIntoConstraints = NO;
+//    CGSize contentSize = [label sizeThatFits:CGSizeMake(fontSize.width + 16, CGFLOAT_MAX)];
+//    label.frame = CGRectMake(0, 0, contentSize.width, contentSize.height - 16);
     
 #if !__has_feature(objc_arc)
     [label autorelease];
