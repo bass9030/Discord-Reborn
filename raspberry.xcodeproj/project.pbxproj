@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		024663832A723669009DA6BB /* RBImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 024663822A723669009DA6BB /* RBImageViewController.m */; };
+		025FF8422AF67E7800D67CD5 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 025FF8412AF67E7800D67CD5 /* TTTAttributedLabel.m */; };
 		090E0E7A22481240004B30AC /* API Settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 090E0E7922481240004B30AC /* API Settings.plist */; };
 		091B9D97226B5C2C0047C75B /* RBGatewayHeart.m in Sources */ = {isa = PBXBuildFile; fileRef = 091B9D96226B5C2C0047C75B /* RBGatewayHeart.m */; };
 		095BF89C235ACF8D00F3FCD8 /* RBChatViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 095BF89B235ACF8D00F3FCD8 /* RBChatViewController.m */; };
@@ -97,6 +98,8 @@
 /* Begin PBXFileReference section */
 		024663812A723669009DA6BB /* RBImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBImageViewController.h; sourceTree = "<group>"; };
 		024663822A723669009DA6BB /* RBImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RBImageViewController.m; sourceTree = "<group>"; };
+		025FF8402AF67E7800D67CD5 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
+		025FF8412AF67E7800D67CD5 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		02AB4E602AECFE5C00C6C0ED /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.1.sdk/System/Library/Frameworks/AssetsLibrary.framework; sourceTree = DEVELOPER_DIR; };
 		090E0E7922481240004B30AC /* API Settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "API Settings.plist"; sourceTree = "<group>"; };
 		091B9D95226B5C2C0047C75B /* RBGatewayHeart.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RBGatewayHeart.h; sourceTree = "<group>"; };
@@ -252,6 +255,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		025FF83F2AF67E7800D67CD5 /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				025FF8402AF67E7800D67CD5 /* TTTAttributedLabel.h */,
+				025FF8412AF67E7800D67CD5 /* TTTAttributedLabel.m */,
+			);
+			path = TTTAttributedLabel;
+			sourceTree = "<group>";
+		};
 		095BF89D235ACFB500F3FCD8 /* bubl tabl view */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +397,7 @@
 		09610D1822474658000E65E1 /* lib */ = {
 			isa = PBXGroup;
 			children = (
+				025FF83F2AF67E7800D67CD5 /* TTTAttributedLabel */,
 				09A4D34923614D8700A7E59C /* ftwcache */,
 				095BF89D235ACFB500F3FCD8 /* bubl tabl view */,
 				09610D1922474658000E65E1 /* AFNetworking */,
@@ -673,6 +686,7 @@
 				09610D3C22474658000E65E1 /* AFXMLRequestOperation.m in Sources */,
 				095BF8C2235ACFB500F3FCD8 /* UIBubbleTypingTableViewCell.m in Sources */,
 				09610D3D22474658000E65E1 /* UIImageView+AFNetworking.m in Sources */,
+				025FF8422AF67E7800D67CD5 /* TTTAttributedLabel.m in Sources */,
 				09610D3E22474658000E65E1 /* base64.c in Sources */,
 				09610D3F22474658000E65E1 /* NSData+SRB64Additions.m in Sources */,
 				09610D4022474658000E65E1 /* SRWebSocket.m in Sources */,
