@@ -78,7 +78,7 @@
     
     self.subscribedChannel = channel;
     channel.isCurrentlyFocused = true;
-    [channel retrieveNumberOfMessages:50];
+    [channel retrieveNumberOfMessages:20];
     [channel markAsReadWithMessage:[self.subscribedChannel getLastAddedMessage]];
     [self scrollChatToBottom];
 }
