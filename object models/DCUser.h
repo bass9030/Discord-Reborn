@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DCDiscordObject.h"
+#import <UIKit/UIKit.h>
 
 @interface DCUser : NSObject <DCDiscordObject>
 
