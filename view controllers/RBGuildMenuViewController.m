@@ -95,7 +95,7 @@
         if([self.selectedGuild.snowflake isEqual:@"0"])
             return self.selectedGuild.sortedChannels.count;
         NSString *key = [self.selectedGuild.sortedCategorys objectAtIndex: section];
-        return [[self.selectedGuild.channelsWithCategory objectForKey: key] count];
+        return [(NSMutableArray*) [self.selectedGuild.channelsWithCategory objectForKey: key] count];
     }
     
     return 0;
