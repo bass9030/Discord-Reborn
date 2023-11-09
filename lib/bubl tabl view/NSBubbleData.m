@@ -9,6 +9,7 @@
 //
 
 #import "NSBubbleData.h"
+#import "TTTAttributedLabel.h"
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
@@ -58,19 +59,20 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
 
     // TTTAttributedLabel
-//    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByCharWrapping];
-//    
-//    TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-//    label.numberOfLines = 0;
-//    label.lineBreakMode = NSLineBreakByWordWrapping;
-//    [label setText:text ? text : @""];
-//    [label setFont:font];
-//    label.backgroundColor = [UIColor clearColor];
-//    NSDictionary *linkAttr = @{ NSForegroundColorAttributeName: [UIColor blueColor],
-//                                NSUnderlineStyleAttributeName: [NSNumber numberWithInt:1] };
-//    label.linkAttributes = linkAttr;
-//    label.activeLinkAttributes = linkAttr;
-//    label.inactiveLinkAttributes = linkAttr;
+    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
+    
+    TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    [label setFont:font];
+    [label setText:text ? text : @""];
+    label.backgroundColor = [UIColor clearColor];
+    NSDictionary *linkAttr = @{ NSForegroundColorAttributeName: [UIColor blueColor],
+                                NSUnderlineStyleAttributeName: [NSNumber numberWithInt:1] };
+    label.adjustsFontSizeToFitWidth = YES;
+    label.linkAttributes = linkAttr;
+    label.activeLinkAttributes = linkAttr;
+    label.inactiveLinkAttributes = linkAttr;
     
     NSError *error = nil;
     NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:&error];
