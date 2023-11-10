@@ -59,35 +59,45 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     UIFont *font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
 
     // TTTAttributedLabel
-    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
-    
-    TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+    TTTAttributedLabel *label = [[TTTAttributedLabel alloc] initWithFrame:CGRectZero];
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     [label setFont:font];
-    [label setText:text ? text : @""];
+
     label.backgroundColor = [UIColor clearColor];
+    
     NSDictionary *linkAttr = @{ NSForegroundColorAttributeName: [UIColor blueColor],
                                 NSUnderlineStyleAttributeName: [NSNumber numberWithInt:1] };
-    label.adjustsFontSizeToFitWidth = YES;
     label.linkAttributes = linkAttr;
     label.activeLinkAttributes = linkAttr;
     label.inactiveLinkAttributes = linkAttr;
     
-    NSError *error = nil;
-    NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:&error];
-    if (error == nil) {
-        NSArray *matches = [detector matchesInString:label.text
-                                             options:0
-                                               range:NSMakeRange(0, [label.text length])];
-        for (NSTextCheckingResult *match in matches) {
-            NSRange matchRange = [match range];
-            if ([match resultType] == NSTextCheckingTypeLink) {
-                NSURL *url = [match URL];
-                [label addLinkToURL:url withRange:matchRange];
+    label.userInteractionEnabled = YES;
+    
+    label.delegate = self;
+    
+    [label setText:text ? text : @""];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSError *error = nil;
+        NSDataDetector *detector = [NSDataDetector dataDetectorWithTypes:NSTextCheckingTypeLink error:&error];
+        if (error == nil) {
+            NSArray *matches = [detector matchesInString:label.text
+                                                 options:0
+                                                   range:NSMakeRange(0, [label.text length])];
+            for (NSTextCheckingResult *match in matches) {
+                NSRange matchRange = [match range];
+                if ([match resultType] == NSTextCheckingTypeLink) {
+                    NSURL *url = [match URL];
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        [label addLinkToURL:url withRange:matchRange];
+                    });
+                }
             }
         }
-    }
+    });
+    
+    CGSize size = [TTTAttributedLabel sizeThatFitsAttributedString:[label attributedText] withConstraints:CGSizeMake(220, 9999) limitedToNumberOfLines:0];
+    label.frame = CGRectMake(0, 0, size.width, size.height);
     
     
     // ==== UILabel ====
@@ -122,6 +132,11 @@ const UIEdgeInsets textInsetsSomeone = {5, 15, 11, 10};
     
     UIEdgeInsets insets = (type == BubbleTypeMine ? textInsetsMine : textInsetsSomeone);
     return [self initWithView:label date:date type:type insets:insets selector:selector];
+}
+
+- (void)attributedLabel:(TTTAttributedLabel*)label didSelectLinkWithURL:(NSURL *)url {
+    NSLog(@"Touched %@", [url absoluteString]);
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 #pragma mark - Image bubble
